@@ -1,0 +1,132 @@
+.wrapper {
+  width: 100%;
+  background: #fff;
+}
+.banner {
+  width: 100%;
+  height: 280px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;     
+}
+.content {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 0 20px;
+  color: #111;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.section { margin-bottom: 28px; }
+
+
+.text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+  white-space: pre-line; 
+}
+
+.loading,
+.notFound {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: #cc2e2e;
+}
+
+.notFound { color: #cc2e2e; }
+.error { color: #cc2e2e; margin-bottom: 12px; }
+.muted { color: #666; }
+
+.ctaRow {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.button {
+  padding: 12px 22px;
+  background: #ec7c19;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+.button:hover { background: #d56b10; }
+.button:active { transform: translateY(1px); opacity: .95; }
+.button:disabled { opacity: .6; cursor: not-allowed; }
+
+
+.doctorsList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* ცენტრში */
+  gap: 20px;
+  margin-top: 20px;
+}
+.doctorCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  width: 260px;
+  text-align: center; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+.doctorCard:hover {
+  box-shadow: 0 8px 22px rgba(0,0,0,.08);
+  transform: translateY(-1px);
+}
+.doctorCard img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  display: block; 
+}
+.doctorCard h3 {
+  font-size: 1.05rem;
+  margin: 6px 0 2px;
+}
+.role { font-size: .95rem; color: #555; }
+
+.link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: .95rem;
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  color: #0a66c2;
+}
+.link:hover { border-color: #0a66c2; }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .title { font-size: 1.6rem; }
+  .subtitle { font-size: 1.1rem; }
+  .text { font-size: .98rem; }
+}
+/* პატარა ეკრანზე */
+@media (max-width: 1200px) {
+  .banner {
+    width: 100%;
+    height: auto;          
+    object-fit: contain;    
+    object-position: center;
+  }
+}

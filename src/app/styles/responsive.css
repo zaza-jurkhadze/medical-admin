@@ -1,0 +1,265 @@
+/*--TOPHEADER--*/
+@media (max-width: 768px) {
+  .top-header {
+    flex-direction: column;
+    align-items: center; 
+    height: auto;
+    padding: 10px 20px;
+    gap: 10px;
+    text-align: center; 
+  }
+  .top-left {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .top-right {
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+}
+
+
+/*--MAINHEADER--*/
+
+@media (max-width: 1200px) {
+  .desktop-menu {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+    color: #000;
+  }
+  .mobile-menu {
+  position: fixed;
+  top: 100px; 
+  left: 0;
+  right: 0;
+  background-color: #f2f7ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 0;
+  z-index: 999;
+  border-bottom: 1px solid #EC7C19;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.mobile-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+  .mobile-menu a {
+    font-size: 18px;
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover {
+    color: #EC7C19;
+  }
+  .brand-text {
+    font-size: 10px;
+    margin-left: 5px;
+  }
+  .logo {
+    width: 45px;
+    height: auto;
+  }
+  .main-left {
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+
+ .mobile-menu {
+  top: 180px; 
+}
+.mobile-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+}
+
+
+/*--HEROSECTION--*/
+
+@media (max-width: 1200px) {
+  .hero {
+    background-attachment: fixed; 
+    background-position: 80% center; 
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    background-attachment: fixed; 
+    background-position: 73% center; 
+  }
+}
+
+/*--SERVICES RESPONSIVE--*/
+
+/* პატარა ეკრანები (მობილური) */
+@media (max-width: 480px) {
+  .services-section {
+    padding: 40px 15px;
+  }
+
+  .services-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .services-section p {
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+  }
+
+  .services-section input {
+    max-width: 100%;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .service-card {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .service-card .icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .pagination button {
+    padding: 3px 8px;
+    font-size: 0.8rem;
+  }
+
+  .show-all-btn, .show-less-btn {
+    padding: 6px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* საშუალო ეკრანები (ტაბლეტი) */
+@media (max-width: 768px) {
+  .services-section {
+    padding: 50px 20px;
+  }
+
+  .services-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .services-section p {
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 200px));
+    gap: 25px;
+    padding: 0 30px;
+  }
+
+  .service-card {
+    width: 200px;
+    padding: 18px;
+  }
+
+  .service-card .icon img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .pagination button {
+    padding: 4px 9px;
+    font-size: 0.85rem;
+  }
+
+  .show-all-btn, .show-less-btn {
+    padding: 7px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+/* დიდი ეკრანები (ლეპტოპი და მეტი) */
+@media (min-width: 1200px) {
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+    gap: 40px;
+    padding: 0 50px;
+  }
+
+  .service-card {
+    width: 230px;
+    padding: 20px;
+  }
+
+  .service-card .icon img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+
+/*--DIAGNOSTIC DEPARTMENT--*/
+
+@media (max-width: 992px) {
+.diagnostic-dep li {
+    width: 50%;
+  }
+    .long-copy {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+/*--NEWS SECTION--*/
+@media (max-width: 768px) {
+  .news-section .news-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .news-section .news-card {
+    width: 90%;
+  }
+}
+
+/*--CONTACT INFO--*/
+
+@media (max-width: 768px) {
+  .contact-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 0; 
+  }
+
+  .contact-column {
+    text-align: center;
+    margin-bottom: 5px; 
+  }
+}
