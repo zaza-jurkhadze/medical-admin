@@ -404,7 +404,6 @@ const DoctorsSection = () => {
           width: "100%",
           maxWidth: 400,
           marginBottom: 30,
-          marginLeft: 20,
           fontSize: "1rem",
           border: "2px solid #ddd",
           borderRadius: 8,
