@@ -26,8 +26,7 @@ const ContactInfo = () => {
             <strong>სამუშაო საათები:</strong>
           </p>
           <p>ორშ - პარ: 09:30 – 17:30</p>
-          <p>შაბათი: დასვენების დღე</p>
-          <p>კვირა: დასვენების დღე</p>
+          <p>შაბათი-კვირა: დასვენების დღე</p>
         </div>
 
         {/* სოციალური ქსელები */}
@@ -41,6 +40,7 @@ const ContactInfo = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="Facebook"
+              className="facebook"
             >
               <i className="fab fa-facebook-f"></i>
             </a>
@@ -49,6 +49,7 @@ const ContactInfo = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
+              className="instagram"
             >
               <i className="fab fa-instagram"></i>
             </a>
@@ -57,8 +58,18 @@ const ContactInfo = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="YouTube"
+              className="youtube"
             >
               <i className="fab fa-youtube"></i>
+            </a>
+            <a
+              href="https://linkedin.com/in/yourprofile"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              className="linkedin"
+            >
+              <i className="fab fa-linkedin-in"></i>
             </a>
           </div>
         </div>
