@@ -45,7 +45,6 @@ h2::after {
 
 
 /*--TOPHEADER--*/
-
 .top-header {
   background-color: #e6f0ff;
   height: 45px;
@@ -84,6 +83,8 @@ h2::after {
 #root {
   height: 100%;
 }
+
+
 /*--MAINHEADER--*/
 
 .mobile-menu {
@@ -178,6 +179,7 @@ h2::after {
 .services-section {
   padding: 70px 20px;
   text-align: center;
+  scroll-margin-top: 50px; 
 }
 
 .services-section h2 {
@@ -379,6 +381,7 @@ h2::after {
   padding: 30px 0;
   max-width: 1150px;
   margin: 0 auto;
+  scroll-margin-top: 50px; 
 }
 
 .news-section .section-title {
@@ -539,20 +542,20 @@ h2::after {
 }
 
 
-
 /*--QUESTION & ANSWER--*/
 
 .faq-section {
   padding: 40px 20px;
   max-width: 900px;
   margin: 0 auto;
+  scroll-margin-top: 45px; 
 }
 
 .faq-title {
   text-align: center;
   margin-bottom: 30px;
   font-size: 25px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .accordion-wrapper {
@@ -600,6 +603,7 @@ h2::after {
   background-color: #f4f6f9;
   padding: 60px 20px;
   text-align: center;
+  scroll-margin-top: 35px; 
 }
 
 .section-features h2 {
