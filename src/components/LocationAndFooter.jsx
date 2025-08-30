@@ -7,7 +7,7 @@ const LocationAndFooter = () => {
 
   return (
     <section className="location-section" id="clinic-location">
-      <h2>ჩვენი ადგილმდებარეობა</h2>
+      <h2 style={{ fontSize: "1.6rem", marginBottom: "10px", fontWeight: "400", }}>ჩვენი ადგილმდებარეობა</h2>
       <p className="location-description">
         მოგვწვდით მარტივად — ჩვენი მისამართია ქუთაისი, ფოთის ქუჩა 40.
       </p>
