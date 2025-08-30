@@ -261,12 +261,38 @@ const AboutClinic = () => {
 
           <button onClick={() => toggleSection("admin")} style={styles.accordionButton}>ადმინისტრაცია</button>
           {activeSection === "admin" && (
-            <div style={styles.founderItem}>
-              <img src="/img/founders/shota-ingorokva.png" alt="თემურ ქარდავა " style={styles.founderImage} />
-              <p>თემურ ქარდავა ადმინისტრაციის მენეჯერი</p>
-              <button style={styles.detailsButton} onClick={handleNavigate}>ადმინისტრაცია სრულად</button>
+                        <div style={{
+              display: "flex",
+              alignItems: "center", // სურათი და content ერთ ხაზზე
+              gap: "20px",
+              marginBottom: "15px",
+            }}>
+              <img
+                src="/img/founders/shota-ingorokva.png"
+                alt="თემურ ქარდავა"
+                style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover" }}
+              />
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <p>თემურ ქარდავა – ადმინისტრაციის მენეჯერი</p>
+                <button
+                  style={{
+                    padding: "6px 12px",
+                    backgroundColor: "#EC7C19",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    marginTop: "5px",
+                    width: "fit-content",
+                  }}
+                  onClick={handleNavigate}
+                >
+                  ადმინისტრაცია სრულად
+                </button>
+              </div>
             </div>
           )}
+
         </div>
       </div>
 
@@ -422,24 +448,16 @@ const styles = {
   },
   founderItem: {
     display: "flex",
-    alignItems: "center",
-    marginBottom: "8px",
+    alignItems: "center", 
+    gap: "20px",          
+    marginBottom: "15px", 
   },
   founderImage: {
     width: "80px",
     height: "80px",
     borderRadius: "50%",
     objectFit: "cover",
-    marginRight: "30px",
-  },
-  detailsButton: {
-    padding: "6px 12px",
-    backgroundColor: "#EC7C19",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginTop: "100px",
-  },
+  }
+  
 };
 export default AboutClinic;
