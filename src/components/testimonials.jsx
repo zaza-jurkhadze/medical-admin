@@ -25,7 +25,7 @@ const PatientSection = () => {
   return (
     <section className="patient-section" id="patients">
       <div className="section-header">
-        <h2>მადლიერი პაციენტები</h2>
+        <h2 style={{ fontSize: "1.6rem", marginBottom: "10px", fontWeight: "400", }}>მადლიერი პაციენტები</h2>
       </div>
 
       <div className="patient-grid">
