@@ -28,7 +28,7 @@ export default function Home() {
       <HeroSection />
       </FadeInSection>
 
-      <FadeInSection className="slide-down">
+      <FadeInSection className="slide-up">
       <Services />
       </FadeInSection>
 
@@ -38,7 +38,7 @@ export default function Home() {
       <PatientSection />
       <FaqAccordion />
 
-      <FadeInSection className="slide-left">
+      <FadeInSection className="slide-up">
       <ContactInfo />
       </FadeInSection>
 
