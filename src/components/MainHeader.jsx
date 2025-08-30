@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -7,20 +7,34 @@ import logo from '../../public/img/logo/wrc-logo(1).png';
 
 const MainHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
   const menuRef = useRef(null);
   const hamburgerRef = useRef(null);
-
-  // height calculation
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
 
   const router = useRouter();
   const pathname = usePathname();
 
-  // avoid SSR mismatch
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const computeHeaderOffset = () => {
+    const mainHeader = document.querySelector('.main-header');
+    const topHeader = document.querySelector('.top-header');
+
+    let offset = 0;
+    if (mainHeader) offset += mainHeader.offsetHeight;
+
+    if (topHeader) {
+      const rect = topHeader.getBoundingClientRect();
+      if (rect.bottom > 0) {
+        const visibleHeight = Math.min(rect.bottom, topHeader.offsetHeight);
+        offset += visibleHeight;
+      }
+    }
+    return offset;
+  };
+
+  const updateHeaderHeight = () => {
+    setHeaderHeight(computeHeaderOffset());
+  };
 
   // click outside → close
   useEffect(() => {
@@ -28,7 +42,7 @@ const MainHeader = () => {
       if (
         menuRef.current &&
         !menuRef.current.contains(e.target) &&
-        !hamburgerRef.current.contains(e.target)
+        !hamburgerRef.current?.contains(e.target)
       ) {
         setMenuOpen(false);
       }
@@ -37,42 +51,50 @@ const MainHeader = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // scroll → close menu
+  // scroll → close menu 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScrollClose = () => {
       if (menuOpen) setMenuOpen(false);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScrollClose);
+    return () => window.removeEventListener('scroll', handleScrollClose);
   }, [menuOpen]);
 
-  // headerHeight calculation
-  useEffect(() => {
-    if (!isMounted) return;
-
-    const updateHeaderHeight = () => {
-      const mainHeader = document.querySelector('.main-header');
-      const topHeader = document.querySelector('.top-header');
-      if (mainHeader) {
-        if (window.scrollY === 0 && topHeader) {
-          setHeaderHeight(mainHeader.offsetHeight + topHeader.offsetHeight);
-        } else {
-          setHeaderHeight(mainHeader.offsetHeight);
-        }
-      }
-    };
-
+  useLayoutEffect(() => {
     updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-    window.addEventListener("scroll", updateHeaderHeight);
+
+    const mainHeader = document.querySelector('.main-header');
+    const topHeader = document.querySelector('.top-header');
+
+    const ro = new ResizeObserver(() => updateHeaderHeight());
+    if (mainHeader) ro.observe(mainHeader);
+    if (topHeader) ro.observe(topHeader);
+
+    const onResize = () => updateHeaderHeight();
+    const onScroll = () => updateHeaderHeight();
+
+    window.addEventListener('resize', onResize);
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("resize", updateHeaderHeight);
-      window.removeEventListener("scroll", updateHeaderHeight);
+      ro.disconnect();
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('scroll', onScroll);
     };
-  }, [isMounted]);
+  }, []);
 
-  // მთავარი გვერდი
+  const toggleMenu = () => {
+  
+    const offset = computeHeaderOffset();
+    setHeaderHeight(offset);
+    setMenuOpen((prev) => !prev);
+
+    requestAnimationFrame(() => {
+      setHeaderHeight(computeHeaderOffset());
+    });
+  };
+
+
   const handleHomeClick = (e) => {
     e.preventDefault();
     if (pathname === '/') {
@@ -84,7 +106,6 @@ const MainHeader = () => {
     }
   };
 
-  // scroll to section by id
   const scrollToId = (e, id) => {
     e.preventDefault();
     if (pathname !== '/') {
@@ -119,13 +140,13 @@ const MainHeader = () => {
         <div
           className="hamburger"
           ref={hamburgerRef}
-          onClick={() => setMenuOpen((prev) => !prev)}
+          onClick={toggleMenu}
           aria-label="Toggle menu"
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => e.key === "Enter" && setMenuOpen((prev) => !prev)}
+          onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
         >
-          <i className={menuOpen ? "fas fa-times" : "fas fa-bars"}></i>
+          <i className={menuOpen ? 'fas fa-times' : 'fas fa-bars'}></i>
         </div>
 
         {/* Desktop Menu */}
@@ -140,22 +161,21 @@ const MainHeader = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isMounted && (
-        <nav
-          className={`mobile-menu ${menuOpen ? 'open' : ''}`}
-          style={{ top: `${headerHeight}px` }}
-          ref={menuRef}
-          aria-label="Mobile navigation"
-        >
-          <a href="/" onClick={handleHomeClick}>მთავარი</a>
-          <Link href="/about-clinic" onClick={() => setMenuOpen(false)}>ჩვენს შესახებ</Link>
-          <a href="/#services" onClick={(e) => scrollToId(e, 'services')}>სერვისები</a>
-          <a href="/#doctors" onClick={(e) => scrollToId(e, 'doctors')}>ექიმები</a>
-          <a href="/#news" onClick={(e) => scrollToId(e, 'news')}>სიახლეები</a>
-          <a href="/#faq" onClick={(e) => scrollToId(e, 'faq')}>ხშირი კითხვები</a>
-          <a href="/#contact-info" onClick={(e) => scrollToId(e, 'contact-info')}>კონტაქტი</a>
-        </nav>
-      )}
+      <nav
+        className={`mobile-menu ${menuOpen ? 'open' : ''}`}
+        // top-ს ვაყენებთ მხოლოდ გახსნილზე — გახსნამდე toggleMenu უკვე ითვლის სწორ მნიშვნელობას
+        style={menuOpen ? { top: `${headerHeight}px` } : undefined}
+        ref={menuRef}
+        aria-label="Mobile navigation"
+      >
+        <a href="/" onClick={handleHomeClick}>მთავარი</a>
+        <Link href="/about-clinic" onClick={() => setMenuOpen(false)}>ჩვენს შესახებ</Link>
+        <a href="/#services" onClick={(e) => scrollToId(e, 'services')}>სერვისები</a>
+        <a href="/#doctors" onClick={(e) => scrollToId(e, 'doctors')}>ექიმები</a>
+        <a href="/#news" onClick={(e) => scrollToId(e, 'news')}>სიახლეები</a>
+        <a href="/#faq" onClick={(e) => scrollToId(e, 'faq')}>ხშირი კითხვები</a>
+        <a href="/#contact-info" onClick={(e) => scrollToId(e, 'contact-info')}>კონტაქტი</a>
+      </nav>
     </>
   );
 };
