@@ -369,7 +369,7 @@ const DoctorsSection = () => {
         textAlign: "center",
       }}
     >
-      <h2 style={{ fontSize: "2rem", marginBottom: "10px" }}>ექიმები</h2>
+      <h2 style={{ fontSize: "1.6rem", marginBottom: "10px", fontWeight: "400" }}>ექიმები</h2>
 
       {/* ძიება სახელით */}
       <input
