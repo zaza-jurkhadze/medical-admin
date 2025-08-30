@@ -367,6 +367,7 @@ const DoctorsSection = () => {
         margin: "auto",
         padding: "60px 15px",
         textAlign: "center",
+        scrollMarginTop: "30px",
       }}
     >
       <h2 style={{ fontSize: "1.6rem", marginBottom: "10px", fontWeight: "400" }}>ექიმები</h2>
