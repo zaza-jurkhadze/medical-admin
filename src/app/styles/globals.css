@@ -75,22 +75,15 @@ h2::after {
   transition: color 0.3s ease;
 }
 
-.top-right a:hover i.fa-facebook-f {
-  color: #1877F2;
-}
+/* Hover colors for icons */
+.top-right a:hover i.fa-facebook-f { color: #1877F2; }
+.top-right a:hover i.fa-instagram { color: #C13584; }
+.top-right a:hover i.fa-youtube { color: #FF0000; }
+.top-right a:hover i.fa-linkedin-in { color: #0077B5; }
 
-.top-right a:hover i.fa-instagram {
-  color: #C13584;
-}
-
-.top-right a:hover i.fa-youtube {
-  color: #FF0000;
-}
 #root {
   height: 100%;
 }
-
-
 /*--MAINHEADER--*/
 
 .mobile-menu {
