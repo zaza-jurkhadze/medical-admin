@@ -261,11 +261,10 @@ const AboutClinic = () => {
 
           <button onClick={() => toggleSection("admin")} style={styles.accordionButton}>ადმინისტრაცია</button>
           {activeSection === "admin" && (
-                        <div style={{
+          <div style={{
               display: "flex",
-              alignItems: "center", // სურათი და content ერთ ხაზზე
+              alignItems: "center", 
               gap: "20px",
-              marginBottom: "15px",
             }}>
               <img
                 src="/img/founders/shota-ingorokva.png"
@@ -273,7 +272,7 @@ const AboutClinic = () => {
                 style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover" }}
               />
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <p>თემურ ქარდავა – ადმინისტრაციის მენეჯერი</p>
+                <p style={{marginTop: "55px"}}>თემურ ქარდავა – ადმინისტრაციის მენეჯერი</p>
                 <button
                   style={{
                     padding: "6px 12px",
@@ -282,7 +281,8 @@ const AboutClinic = () => {
                     border: "none",
                     borderRadius: "5px",
                     cursor: "pointer",
-                    marginTop: "5px",
+                    marginTop: "25px",
+                    marginLeft: "50px",
                     width: "fit-content",
                   }}
                   onClick={handleNavigate}
