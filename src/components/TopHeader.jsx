@@ -12,7 +12,7 @@ const TopHeader = () => {
         <a href="https://www.facebook.com/WRCommt" target="_blank" rel="noreferrer"><i className="fab fa-facebook-f"></i></a>
         <a href="#"><i className="fab fa-instagram"></i></a>
         <a href="#"><i className="fab fa-youtube"></i></a>
-        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer"><i className="fab fa-linkedin-in"></i></a>
+        <a href="https://linkedin.com/in/wrc-clinic" target="_blank" rel="noreferrer"><i className="fab fa-linkedin-in"></i></a>
       </div>
     </div>
   );
