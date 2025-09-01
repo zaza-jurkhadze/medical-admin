@@ -44,7 +44,19 @@ const NewsSection = () => {
     );
   };
 
-  if (loading) return <p className="news-loading">მოცდა...</p>;
+      if (loading) return (
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "200px",
+          fontSize: "18px",
+        }}
+      >
+        ერთი წამით...
+      </p>
+    );
 
   return (
     <section id="news" className="news-section">
