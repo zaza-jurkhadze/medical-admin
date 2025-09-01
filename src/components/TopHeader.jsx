@@ -10,7 +10,7 @@ const TopHeader = () => {
       </div>
       <div className="top-right">
         <a href="https://www.facebook.com/WRCommt" target="_blank" rel="noreferrer"><i className="fab fa-facebook-f"></i></a>
-        <a href="#"><i className="fab fa-instagram"></i></a>
+        <a href="https://www.instagram.com/modern_medical_tecnologies?igsh=MXhkZXltY3o4bGswbw== "><i className="fab fa-instagram"></i></a>
         <a href="#"><i className="fab fa-youtube"></i></a>
         <a href="https://linkedin.com/in/wrc-clinic" target="_blank" rel="noreferrer"><i className="fab fa-linkedin-in"></i></a>
       </div>
