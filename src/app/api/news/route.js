@@ -1,7 +1,8 @@
+
+import { NextResponse } from "next/server";
+import cloudinary from "@/lib/cloudinary";
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-import fs from "fs";
-import path from "path";
 
 const dbName = "medical";
 const collectionName = "news";
@@ -11,7 +12,7 @@ async function connectDB() {
   return client.db(dbName).collection(collectionName);
 }
 
-// GET: სიახლეები Pagination-ისთვის, ახალი ზედა
+// GET: Pagination
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -37,22 +38,29 @@ export async function GET(req) {
   }
 }
 
-// POST: ახალი სიახლის დამატება
+// POST: Add news
 export async function POST(req) {
   try {
     const data = await req.json();
     const collection = await connectDB();
 
-    // სურათის default
-    if (!data.image) data.image = "/img/news/default.jpg";
+    let imageUrl = "/img/news/default.jpg";
 
-    // ახალი სიახლე
-   
+    // ატვირთვა Cloudinary-ზე მხოლოდ თუ სურათი არ არის უკვე URL
+    if (data.image && !data.image.startsWith("http")) {
+      const uploadResponse = await cloudinary.uploader.upload(data.image, {
+        folder: "news",
+      });
+      imageUrl = uploadResponse.secure_url;
+    } else if (data.image && data.image.startsWith("http")) {
+      imageUrl = data.image; // უკვე ატვირთული სურათი
+    }
+
     const newNews = {
-        ...data,
-        date: new Date(), // ავტომატურად current timestamp, წამები და მილიწამები
-        image: data.image || "/img/news/default.jpg"
-      };
+      ...data,
+      date: new Date(),
+      image: imageUrl,
+    };
 
     const result = await collection.insertOne(newNews);
     return new Response(JSON.stringify({ ...newNews, _id: result.insertedId }), { status: 201 });
@@ -61,33 +69,7 @@ export async function POST(req) {
   }
 }
 
-// DELETE: სიახლის წაშლა (მაშინ წაიშალოს სურათიც)
-export async function DELETE(req) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("_id");
-    if (!id) return new Response(JSON.stringify({ error: "_id is required" }), { status: 400 });
-
-    const collection = await connectDB();
-    const newsItem = await collection.findOne({ _id: new ObjectId(id) });
-
-    if (!newsItem) return new Response(JSON.stringify({ error: "News not found" }), { status: 404 });
-
-    // სურათის წაშლა ლოკალური ფოლდერიდან
-    if (newsItem.image && newsItem.image !== "/img/news/default.jpg") {
-      const imagePath = path.join(process.cwd(), "public", newsItem.image);
-      if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
-    }
-
-    await collection.deleteOne({ _id: new ObjectId(id) });
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
-  }
-}
-
-// PATCH: სიახლის რედაქტირება
+// PATCH: Update news
 export async function PATCH(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -98,12 +80,50 @@ export async function PATCH(req) {
     if (updatedData.date) updatedData.date = new Date(updatedData.date);
 
     const collection = await connectDB();
+    const newsItem = await collection.findOne({ _id: new ObjectId(id) });
+    if (!newsItem) return new Response(JSON.stringify({ error: "News not found" }), { status: 404 });
+
+    // თუ ახალი სურათი მივიღეთ და ის არ არის URL, წაშალე ძველი Cloudinary-ზე
+    if (updatedData.image && !updatedData.image.startsWith("http")) {
+      if (newsItem.image && !newsItem.image.includes("default.jpg")) {
+        const segments = newsItem.image.split("/");
+        const fileName = segments[segments.length - 1].split(".")[0];
+        await cloudinary.uploader.destroy(`news/${fileName}`);
+      }
+      const uploadResponse = await cloudinary.uploader.upload(updatedData.image, {
+        folder: "news",
+      });
+      updatedData.image = uploadResponse.secure_url;
+    }
+
     const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedData });
-
-    if (result.matchedCount === 0) return new Response(JSON.stringify({ error: "News not found" }), { status: 404 });
-
     const updatedNews = await collection.findOne({ _id: new ObjectId(id) });
     return new Response(JSON.stringify(updatedNews), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  }
+}
+
+// DELETE: Delete news
+export async function DELETE(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("_id");
+    if (!id) return new Response(JSON.stringify({ error: "_id is required" }), { status: 400 });
+
+    const collection = await connectDB();
+    const newsItem = await collection.findOne({ _id: new ObjectId(id) });
+    if (!newsItem) return new Response(JSON.stringify({ error: "News not found" }), { status: 404 });
+
+    // სურათის წაშლა Cloudinary-ზე
+    if (newsItem.image && !newsItem.image.includes("default.jpg")) {
+      const segments = newsItem.image.split("/");
+      const fileName = segments[segments.length - 1].split(".")[0];
+      await cloudinary.uploader.destroy(`news/${fileName}`);
+    }
+
+    await collection.deleteOne({ _id: new ObjectId(id) });
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
