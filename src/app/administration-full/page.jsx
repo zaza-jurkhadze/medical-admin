@@ -52,7 +52,7 @@ const adminSections = [
       "მარაგების მართვა",
       "მომწოდებლებთან კომუნიკაცია"
     ],
-    image: "/img/administration/Purchasing.jpg",
+    image: "/img/administration/purchasing.jpg",
   },
   {
     title: "საკომუნიკაციო და მარკეტინგის განყოფილება",
