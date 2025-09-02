@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import cloudinary from "@/lib/cloudinary";
 import clientPromise from "../../../lib/mongodb";
