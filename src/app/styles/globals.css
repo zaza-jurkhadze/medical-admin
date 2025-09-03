@@ -409,9 +409,15 @@ h2::after {
 
 .news-section .news-image {
   width: 100%;
-  height: 200px; 
+  height: 200px;     
   object-fit: cover;
   border-bottom: 1px solid #ddd;
+  transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+}
+.news-section .news-image:hover {
+  transform: scale(1.05);         
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+  filter: brightness(1.05);       
 }
 
 .news-section .news-content {
