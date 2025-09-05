@@ -391,7 +391,100 @@ h2::after {
     color: #555;
 }
 
+/*--ALL DOCTORS SECTION--*/
 
+.all-doctors-section {
+  max-width: 90%;
+  margin: auto;
+  padding: 60px 15px;
+  text-align: center;
+}
+.all-doctors-title {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+.all-doctors-search {
+  padding: 10px 15px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 30px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+  color: #555;
+}
+.all-doctors-search:focus {
+  border-color: #EC7C19; /* BRAND_COLOR */
+}
+.all-doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  justify-content: center; 
+  justify-items: center;
+  margin-bottom: 30px;
+}
+.all-doctors-card {
+  background-color: #FAFAFA;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(236, 124, 25, 0.2);
+  text-align: center;
+  cursor: pointer;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 350px;
+  transition: transform 0.2s;
+}
+.all-doctors-card:hover {
+  transform: scale(1.05);
+}
+.all-doctors-card img {
+  width: 250px;
+  height: auto;
+  border-radius: 3%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+.all-doctors-card .doctor-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+.all-doctors-card .doctor-position {
+  font-size: 1rem;
+}
+/* Pagination buttons */
+.all-doctors-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.all-doctors-pagination button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1.5px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.all-doctors-pagination button.active {
+  background-color: #EC7C19; /* BRAND_COLOR */
+  color: white;
+}
+.all-doctors-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 /*--NEWS SECTION--*/
 
 .news-section {
