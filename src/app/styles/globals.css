@@ -281,7 +281,24 @@ h2::after {
   color: #fff;
 }
 
-.show-all-btn, .show-less-btn {
+/*
+.show-less-btn {
+  margin-top: 20px;
+  padding: 8px 20px;
+  background-color: #EC7C19;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 200;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}  
+.show-less-btn:hover {
+  background-color: #d46e13;
+}
+*/
+
+.show-all-btn{
   margin-top: 20px;
   padding: 8px 20px;
   background-color: #EC7C19;
@@ -293,7 +310,7 @@ h2::after {
   transition: all 0.3s ease;
 }
 
-.show-all-btn:hover, .show-less-btn:hover {
+.show-all-btn:hover {
   background-color: #d46e13;
 }
 
