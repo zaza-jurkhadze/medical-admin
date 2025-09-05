@@ -8,7 +8,7 @@ import LocationAndFooter from "@/components/LocationAndFooter";
 import TopBar from "@/app/dashboard/Layout/TopBar";
 import TopHeader from "@/components/TopHeader";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 12;
 
 export default function AllServices() {
   const [servicesData, setServicesData] = useState([]);
@@ -77,7 +77,7 @@ export default function AllServices() {
       <main
         style={{
           padding: "40px 20px",
-          maxWidth: "1200px",
+          maxWidth: "90%",
           margin: "0 auto",
         }}
       >
@@ -137,7 +137,7 @@ export default function AllServices() {
                 border: "1px solid #eee",
                 borderRadius: "10px",
                 textAlign: "center",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+                boxShadow: "0 6px 8px rgba(0,0,0,0.05)",
                 transition: "transform 0.2s",
                 cursor: "pointer", // მთლიანი ქარდი კლიკაბელური
             }}
@@ -269,4 +269,3 @@ export default function AllServices() {
     </>
   );
 }
-
