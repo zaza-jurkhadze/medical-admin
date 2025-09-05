@@ -47,6 +47,14 @@ const DoctorsSection = () => {
 
   // 4 ექიმის რენდომი სლაიდები (5 წამში ცვლა)
   useEffect(() => {
+  if (showAll || searchTerm || specialtyTerm) return;
+
+  if (doctors.length > 0) {
+    const shuffled = [...doctors].sort(() => 0.5 - Math.random());
+    setRandomDoctors(shuffled.slice(0, ITEMS_PER_PAGE));
+  }
+}, [showAll, searchTerm, specialtyTerm, doctors]);
+  {/* useEffect(() => {
     if (showAll || searchTerm || specialtyTerm) return;
 
     const changeRandom = () => {
@@ -59,7 +67,7 @@ const DoctorsSection = () => {
       const interval = setInterval(changeRandom, 5000);
       return () => clearInterval(interval);
     }
-  }, [showAll, searchTerm, specialtyTerm, doctors]);
+  }, [showAll, searchTerm, specialtyTerm, doctors]);*/}
 
   // თუ გვერდი მეტია მაქსიმალურზე, დაბრუნდეს 1-ზე
   useEffect(() => {
