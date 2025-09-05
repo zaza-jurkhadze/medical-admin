@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import MainHeader from "@/components/MainHeader";
 import TopHeader from "@/components/TopHeader";
-import LocationAndFooter from "@/components/LocationAndFooter";;
+import LocationAndFooter from "@/components/LocationAndFooter";
 import ContactInfo from "@/components/ContactInfo";
 import ChatbotWidget from "@/components/Chatbox.jsx";
 import MessengerButton from "@/components/MessengerChat.jsx";
@@ -21,7 +21,7 @@ export default function ServiceDetail() {
   const [showDoctors, setShowDoctors] = useState(false);
   const [errorDoctors, setErrorDoctors] = useState("");
 
-  // service detail
+  // Fetch service detail
   useEffect(() => {
     let cancelled = false;
     setLoadingService(true);
@@ -41,10 +41,10 @@ export default function ServiceDetail() {
     return () => { cancelled = true; };
   }, [slugId]);
 
-  // doctors by slugId with toggle
+  // Fetch doctors by slugId
   const fetchDoctors = async () => {
     if (showDoctors) {
-      // მეორე კლიკი აკეცავს
+      // Toggle off
       setShowDoctors(false);
       return;
     }
@@ -59,6 +59,7 @@ export default function ServiceDetail() {
       setShowDoctors(true);
     } catch (e) {
       setErrorDoctors(e.message || "ექიმები ვერ მოიძებნა");
+      setDoctors([]);
       setShowDoctors(true);
     } finally {
       setLoadingDoctors(false);
@@ -105,11 +106,11 @@ export default function ServiceDetail() {
             </section>
           )}
 
-              {/* ექიმების ღილაკი */}
+          {/* ექიმების ღილაკი */}
           <div className={styles.ctaRow}>
             <button
               className={styles.button}
-              onClick={() => setShowDoctors((prev) => !prev) || fetchDoctors()}
+              onClick={fetchDoctors}
               disabled={loadingDoctors}
             >
               {loadingDoctors
@@ -119,17 +120,21 @@ export default function ServiceDetail() {
                 : "ექიმები"}
             </button>
           </div>
+
           {/* ექიმების სია */}
           {showDoctors && (
             <section className={styles.section}>
+              {loadingDoctors && <p>იტვირთება...</p>}
 
-              {errorDoctors && <p className={styles.error}>{errorDoctors}</p>}
+              {!loadingDoctors && errorDoctors && (
+                <p className={styles.error}>{errorDoctors}</p>
+              )}
 
-              {!errorDoctors && doctors.length === 0 && (
+              {!loadingDoctors && !errorDoctors && doctors.length === 0 && (
                 <p className={styles.muted}>ამ სერვისზე ექიმები არ მოიძებნა</p>
               )}
 
-              {!errorDoctors && doctors.length > 0 && (
+              {!loadingDoctors && doctors.length > 0 && (
                 <div className={styles.doctorsList}>
                   {doctors.map((doc) => (
                     <article key={doc._id} className={styles.doctorCard}>
@@ -141,7 +146,6 @@ export default function ServiceDetail() {
                       <h3>{doc.name}</h3>
                       <p className={styles.role}>{doc.position}</p>
 
-                      {/* პროფილის გვერდზე გადამისამართება */}
                       {doc.doctorSlug && (
                         <a className={styles.link} href={`/doctors/${doc.doctorSlug}`}>
                           სრულად
@@ -155,10 +159,9 @@ export default function ServiceDetail() {
           )}
         </div>
       </div>
-      
-           
+
       <ContactInfo />
-      <LocationAndFooter/>
+      <LocationAndFooter />
       <MessengerButton />
       <ChatbotWidget />
     </>
