@@ -133,10 +133,10 @@ export default function Services() {
           ყველა სერვისი
         </button>
       )}
-
-      {(showAll || searchTerm) && (
+      {/* {(showAll || searchTerm) && (
         <button className="show-less-btn" onClick={() => { setShowAll(false); setSearchTerm(''); }}>ნაკლები სერვისი</button>
-      )}
+      )}*/}
+     
     </section>
   );
 }
