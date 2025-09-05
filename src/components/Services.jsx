@@ -208,29 +208,34 @@ export default function Services() {
         onFocus={e => e.target.style.borderColor = BRAND_COLOR}
         onBlur={e => e.target.style.borderColor = '#ddd'}
       />
-
+      
       <div className="services-grid">
         {(showAll || searchTerm ? paginatedServices : randomServices).map(service => (
-          <div key={service._id || service.id} className="service-card">
+          <div
+            key={service._id || service.id}
+            className="service-card"
+            onClick={() => router.push(`/services/${service.slugId}`)}
+            style={{ cursor: "pointer" }} 
+          >
             <div className="icon">
               <Image
                 src={service.image || service.icon || '/img/icons/default.jpg'}
                 alt={service.name}
                 width={50}
                 height={50}
-                style={{ objectFit: 'contain', filter: 'invert(32%) sepia(99%) saturate(7482%) hue-rotate(203deg) brightness(99%) contrast(101%)'}}       
+                style={{
+                  objectFit: 'contain',
+                  filter: 'invert(32%) sepia(99%) saturate(7482%) hue-rotate(203deg) brightness(99%) contrast(101%)'
+                }}
               />
             </div>
-            <a
-              onClick={() => router.push(`/services/${service.slugId}`)}
-              className="service-link"
-              style={{ cursor: "pointer" }}
-            >
+            <span className="service-link">
               {service.name}
-            </a>
+            </span>
           </div>
         ))}
       </div>
+
 
       {/* Pagination გამოჩნდეს როგორც ძებნისას, ასევე "ყველა სერვისის" ღილაკზე */}
       {( (showAll || searchTerm) && totalPages > 1 ) && (
