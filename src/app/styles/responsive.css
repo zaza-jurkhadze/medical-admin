@@ -247,6 +247,33 @@
 }
 
 
+/*--ALL DOCTORS SECTION--*/
+
+@media (max-width: 1400px) {
+  .all-doctors-grid {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .all-doctors-grid {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .all-doctors-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .all-doctors-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 /*--NEWS SECTION--*/
 @media (max-width: 768px) {
   .news-section .news-grid {
