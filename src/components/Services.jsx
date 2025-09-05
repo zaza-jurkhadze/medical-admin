@@ -55,7 +55,7 @@ export default function Services() {
       setRandomServices(shuffled.slice(0, 4));
     };
     changeRandom();
-    const interval = setInterval(changeRandom, 5000);
+    const interval = setInterval(changeRandom, 15000);
     return () => clearInterval(interval);
   }, [showAll, searchTerm, servicesData]);
 
