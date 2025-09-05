@@ -91,7 +91,7 @@ h2::after {
   display: none;
 }
 .main-header {
-  background-color: #f2f7ff;
+  background-color: #fff;
   height: 70px;
   display: flex;
   justify-content: space-between;
