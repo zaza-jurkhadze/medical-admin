@@ -8,7 +8,7 @@ import LocationAndFooter from "@/components/LocationAndFooter";
 import TopBar from "@/app/dashboard/Layout/TopBar";
 import TopHeader from "@/components/TopHeader";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 9;
 
 export default function AllServices() {
   const [servicesData, setServicesData] = useState([]);
@@ -119,7 +119,7 @@ export default function AllServices() {
             gridTemplateColumns:
             windowWidth < 480
                 ? "repeat(1, 1fr)" // პატარა ეკრანზე ერთი ქარდი ხაზზე
-                : "repeat(auto-fit, minmax(200px, 1fr))", // სხვა ზომებზე flexible
+                : "repeat(auto-fit, minmax(300px, 1fr))", // სხვა ზომებზე flexible
             gap: gridGap,
             justifyItems: "center", // ქარდები ცენტრში
             padding: gridPadding,
