@@ -275,17 +275,25 @@
 
 
 /*--NEWS SECTION--*/
-@media (max-width: 768px) {
-  .news-section .news-grid {
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .news-section .news-card {
-    width: 90%;
+@media (max-width: 1200px) {
+  .news-card {
+    width: 300px;
   }
 }
 
+@media (max-width: 992px) {
+  .news-card {
+    width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .news-card {
+    width: 90%;
+    max-width: 400px;
+  }
+}
 /*--CONTACT INFO--*/
 @media (max-width: 1024px) {
   .contact-grid {
