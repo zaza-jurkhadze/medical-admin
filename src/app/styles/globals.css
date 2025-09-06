@@ -490,11 +490,12 @@ h2::after {
 
 /*--NEWS SECTION--*/
 
+
 .news-section {
   padding: 30px 0;
-  max-width: 1150px;
+  max-width: 1200px;
   margin: 0 auto;
-  scroll-margin-top: 50px; 
+  scroll-margin-top: 50px;
 }
 
 .news-section .section-title {
@@ -504,66 +505,56 @@ h2::after {
   color: #222;
 }
 
-.news-section .news-card {
+.news-grid-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.news-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.news-card {
+  flex: 0 0 auto;
+  width: 380px;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
+  background: #fff;
   display: flex;
   flex-direction: column;
-  width: 350px;       
-  margin: 10px 0;
-  background: #fff;
+  transition: all 0.3s ease;
 }
 
-
-.news-section .news-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+.news-card.inactive {
+  display: none;
 }
 
-.news-section .news-image {
+.news-image {
   width: 100%;
-  height: 200px;     
+  height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid #ddd;
   transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
 }
-.news-section .news-image:hover {
-  transform: scale(1.05);         
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
-  filter: brightness(1.05);       
+
+.news-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  filter: brightness(1.05);
 }
 
-.news-section .news-content {
+.news-content {
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  justify-content: flex-start;
-  align-items: stretch;
-  text-align: left;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 
-.news-section .news-title {
-  font-size: 18px;
-  margin-bottom: 6px;
-  color: #222;
-}
-
-.news-section .news-date {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-.news-section .news-text {
-  font-size: 14px;
-  color: #222;
-  width: 100%;
-}
-
-.news-section .read-more-btn {
+.read-more-btn {
   align-self: flex-start;
   color: #333;
   font-size: 13px;
@@ -573,35 +564,34 @@ h2::after {
   padding: 0;
 }
 
-.news-section .pagination {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.news-section .pagination button {
-  background: none;
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  margin: 0 4px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.news-section .pagination button.active {
-  background-color: #ec7c19;
-  color: white;
-  border-color: #ec7c19;
-}
-
-.news-section .news-grid {
+/* Carousel Arrows */
+.carousel-arrows {
   display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  gap: 16px;
-  padding-bottom: 10px;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.carousel-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 15px;
+  border: 1px solid #555;
+  background: transparent;
+  color: #555;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+  background-color: #EC7C19;
+  color: #fff;
+  border: none;
 }
 
 
