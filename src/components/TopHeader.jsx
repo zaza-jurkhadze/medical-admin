@@ -13,6 +13,7 @@ const TopHeader = () => {
         <a href="https://www.instagram.com/modern_medical_tecnologies?igsh=MXhkZXltY3o4bGswbw== " target="_blank" rel="noreferrer"><i className="fab fa-instagram"></i></a>
         <a href="#"><i className="fab fa-youtube"></i></a>
         <a href="https://linkedin.com/in/wrc-clinic" target="_blank" rel="noreferrer"><i className="fab fa-linkedin-in"></i></a>
+        <a href="https://www.tiktok.com/@wrc-clinic" target="_blank" rel="noreferrer"><i className="fab fa-tiktok"></i></a>
       </div>
     </div>
   );
