@@ -150,32 +150,67 @@ const MainHeader = () => {
         </div>
 
         {/* Desktop Menu */}
-        <nav className="main-right desktop-menu" aria-label="Primary navigation">
-          <a href="/" onClick={handleHomeClick}>მთავარი</a>
-          <Link href="/about-clinic" onClick={() => setMenuOpen(false)}>ჩვენს შესახებ</Link>
-          <a href="/#services" onClick={(e) => scrollToId(e, 'services')}>სერვისები</a>
-          <a href="/#doctors" onClick={(e) => scrollToId(e, 'doctors')}>ექიმები</a>
-          <a href="/#news" onClick={(e) => scrollToId(e, 'news')}>სიახლეები</a>
-          <a href="/#contact-info" onClick={(e) => scrollToId(e, 'contact-info')}>კონტაქტი</a>
-        </nav>
+     <nav className="main-right desktop-menu" aria-label="Primary navigation">
+        <a href="/" onClick={handleHomeClick}>მთავარი</a>
+        <Link href="/about-clinic" onClick={() => setMenuOpen(false)}>ჩვენს შესახებ</Link>
+        <a
+          href="/services/all"
+          onClick={(e) => {
+            e.preventDefault();
+            router.push('/services/all');
+            setMenuOpen(false);
+          }}
+        >
+          სერვისები
+        </a>
+        <a
+          href="/doctors/all"
+          onClick={(e) => {
+            e.preventDefault();
+            router.push('/doctors/all');
+            setMenuOpen(false);
+          }}
+        >
+          ექიმები
+        </a>
+        <a href="/#news" onClick={(e) => scrollToId(e, 'news')}>სიახლეები</a>
+        <a href="/#contact-info" onClick={(e) => scrollToId(e, 'contact-info')}>კონტაქტი</a>
+      </nav>
       </div>
 
       {/* Mobile Menu */}
       <nav
-        className={`mobile-menu ${menuOpen ? 'open' : ''}`}
-        // top-ს ვაყენებთ მხოლოდ გახსნილზე — გახსნამდე toggleMenu უკვე ითვლის სწორ მნიშვნელობას
-        style={menuOpen ? { top: `${headerHeight}px` } : undefined}
-        ref={menuRef}
-        aria-label="Mobile navigation"
+      className={`mobile-menu ${menuOpen ? 'open' : ''}`}
+      style={menuOpen ? { top: `${headerHeight}px` } : undefined}
+      ref={menuRef}
+      aria-label="Mobile navigation"
+    >
+      <a href="/" onClick={handleHomeClick}>მთავარი</a>
+      <Link href="/about-clinic" onClick={() => setMenuOpen(false)}>ჩვენს შესახებ</Link>
+      <a
+        href="/services/all"
+        onClick={(e) => {
+          e.preventDefault();
+          router.push('/services/all');
+          setMenuOpen(false);
+        }}
       >
-        <a href="/" onClick={handleHomeClick}>მთავარი</a>
-        <Link href="/about-clinic" onClick={() => setMenuOpen(false)}>ჩვენს შესახებ</Link>
-        <a href="/#services" onClick={(e) => scrollToId(e, 'services')}>სერვისები</a>
-        <a href="/#doctors" onClick={(e) => scrollToId(e, 'doctors')}>ექიმები</a>
-        <a href="/#news" onClick={(e) => scrollToId(e, 'news')}>სიახლეები</a>
-        <a href="/#faq" onClick={(e) => scrollToId(e, 'faq')}>ხშირი კითხვები</a>
-        <a href="/#contact-info" onClick={(e) => scrollToId(e, 'contact-info')}>კონტაქტი</a>
-      </nav>
+        სერვისები
+      </a>
+      <a
+        href="/doctors/all"
+        onClick={(e) => {
+          e.preventDefault();
+          router.push('/doctors/all');
+          setMenuOpen(false);
+        }}
+      >
+        ექიმები
+      </a>
+      <a href="/#news" onClick={(e) => scrollToId(e, 'news')}>სიახლეები</a>
+      <a href="/#faq" onClick={(e) => scrollToId(e, 'faq')}>ხშირი კითხვები</a>
+      <a href="/#contact-info" onClick={(e) => scrollToId(e, 'contact-info')}>კონტაქტი</a>
+    </nav>
     </>
   );
 };
