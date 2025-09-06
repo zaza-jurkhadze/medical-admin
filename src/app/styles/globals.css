@@ -792,6 +792,7 @@ h2::after {
 .social-icons a.instagram i { color: #E1306C; }
 .social-icons a.youtube i { color: #FF0000; }
 .social-icons a.linkedin i { color: #0077B5; }
+.social-icons a.tiktok i { color: #000000; }
 
 .social-icons a:hover i {
   transform: scale(1.2);
