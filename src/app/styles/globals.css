@@ -391,6 +391,7 @@ h2::after {
     color: #555;
 }
 
+
 /*--ALL DOCTORS SECTION--*/
 
 .all-doctors-section {
@@ -485,6 +486,8 @@ h2::after {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+
 /*--NEWS SECTION--*/
 
 .news-section {
