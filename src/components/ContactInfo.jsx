@@ -71,6 +71,15 @@ const ContactInfo = () => {
             >
               <i className="fab fa-linkedin-in"></i>
             </a>
+            <a 
+              href="https://www.tiktok.com/@wrc-clinic"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok" 
+              className="tiktok"
+              >
+                <i className="fab fa-tiktok"></i>
+            </a>
           </div>
         </div>
       </div>
