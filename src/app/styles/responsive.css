@@ -278,13 +278,13 @@
 
 @media (max-width: 1200px) {
   .news-card {
-    width: 300px;
+    width: 280px;
   }
 }
 
 @media (max-width: 992px) {
   .news-card {
-    width: 350px;
+    width: 300px;
   }
 }
 
