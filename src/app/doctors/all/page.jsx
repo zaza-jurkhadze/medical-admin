@@ -8,7 +8,7 @@ import LocationAndFooter from "@/components/LocationAndFooter";
 import MessengerButton from "@/components/MessengerChat";
 import ChatbotWidget from "@/components/Chatbox";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 12;
 
 const AllDoctorsPage = () => {
   const [doctors, setDoctors] = useState([]);
