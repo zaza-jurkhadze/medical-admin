@@ -305,8 +305,11 @@
 
   .news-detail h1 {
     font-size: 28px;
+    margin-left: 100px;
   }
-
+.news-detail p:first-of-type {
+  margin-left: 100px;
+}
   .news-detail img {
     width: 80%;
   }
@@ -326,12 +329,15 @@
 
   .news-detail h1 {
     font-size: 24px;
+    margin-left: 40px;
   }
 
   .news-detail img {
     width: 90%;
   }
-
+  .news-detail p:first-of-type {
+    margin-left: 40px;
+  }
   .news-detail p:not(:first-of-type) {
     font-size: 15px;
   }
@@ -344,8 +350,11 @@
 
   .news-detail h1 {
     font-size: 22px;
+    margin-left: 10px;
   }
-
+  .news-detail p:first-of-type {
+    margin-left: 10px;
+  }
   .news-detail p:not(:first-of-type) {
     font-size: 14px;
   }
