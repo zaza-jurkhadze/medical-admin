@@ -593,6 +593,7 @@ h2::after {
   border: none;
 }
 
+
 /*--NEWS DETAILS--*/
 
 .news-detail {
@@ -626,6 +627,7 @@ h2::after {
   font-size: 32px;
   margin-bottom: 15px;
   margin-left: 150px;
+  text-align: left;
   color: #222;
 }
 .news-detail p:first-of-type {
