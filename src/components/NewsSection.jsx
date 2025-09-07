@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 const NewsSection = () => {
@@ -9,6 +9,11 @@ const NewsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  // Swipe refs
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const minSwipeDistance = 50; // მინიმალური დისტანცია swipe-ისთვის
 
   // Fetch news from API
   const fetchNews = async () => {
@@ -49,6 +54,24 @@ const NewsSection = () => {
     router.push(`/news/${id}`);
   };
 
+  // Touch events
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      nextSlide(); // swipe left → next
+    } else if (distance < -minSwipeDistance) {
+      prevSlide(); // swipe right → prev
+    }
+  };
+
   if (loading)
     return (
       <p
@@ -73,10 +96,14 @@ const NewsSection = () => {
     <section id="news" className="news-section">
       <h2 className="section-title">სიახლეები</h2>
 
-      <div className="news-grid-wrapper">
+      <div
+        className="news-grid-wrapper"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="news-grid">
           {news.map((item, index) => {
-            // Determine if this card should be visible
             let visible = false;
             if (windowWidth <= 768) {
               visible = index === currentIndex;
