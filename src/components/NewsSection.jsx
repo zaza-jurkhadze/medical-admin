@@ -10,10 +10,10 @@ const NewsSection = () => {
   const [windowWidth, setWindowWidth] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Swipe refs
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-  const minSwipeDistance = 50; // მინიმალური დისტანცია swipe-ისთვის
+  // Swipe references
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+  const minSwipeDistance = 50; // minimal distance to count as swipe
 
   // Fetch news from API
   const fetchNews = async () => {
@@ -54,22 +54,33 @@ const NewsSection = () => {
     router.push(`/news/${id}`);
   };
 
-  // Touch events
+  // Swipe handlers
   const handleTouchStart = (e) => {
+    const tagName = e.target.tagName.toLowerCase();
+    if (tagName === "button" || tagName === "a") {
+      touchStartX.current = null; // swipe არ დაიწყოს clickable-ზე
+      return;
+    }
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchMove = (e) => {
+    if (touchStartX.current === null) return;
     touchEndX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = () => {
+    if (touchStartX.current === null) return;
+
     const distance = touchStartX.current - touchEndX.current;
     if (distance > minSwipeDistance) {
       nextSlide(); // swipe left → next
     } else if (distance < -minSwipeDistance) {
       prevSlide(); // swipe right → prev
     }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
   };
 
   if (loading)
@@ -87,7 +98,6 @@ const NewsSection = () => {
       </p>
     );
 
-  // Determine how many cards to show based on window width
   let cardsToShow = 3; // default desktop
   if (windowWidth <= 768) cardsToShow = 1;
   else if (windowWidth <= 992) cardsToShow = 2;
