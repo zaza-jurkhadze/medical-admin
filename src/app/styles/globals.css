@@ -488,7 +488,6 @@ h2::after {
 }
 
 
-
 /*--NEWS SECTION--*/
 
 .news-section {
@@ -545,6 +544,10 @@ h2::after {
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   filter: brightness(1.05);
+}
+.news-title, .news-date {
+  color:#000;
+  font-weight: 600;
 }
 
 .news-content {
@@ -628,11 +631,13 @@ h2::after {
   margin-bottom: 15px;
   margin-left: 150px;
   text-align: left;
-  color: #222;
+  color: #000;
+  font-weight: 600;
 }
 .news-detail p:first-of-type {
   font-size: 14px;
-  color: #555;
+  color: #000;
+  font-weight: 600;
   margin-bottom: 20px;
   margin-left: 170px;
 }
@@ -676,7 +681,6 @@ h2::after {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 
 /*--TESTIMONIALS SECTION--*/
 
