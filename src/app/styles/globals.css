@@ -593,7 +593,6 @@ h2::after {
   border: none;
 }
 
-
 /*--NEWS DETAILS--*/
 
 .news-detail {
@@ -626,28 +625,31 @@ h2::after {
 .news-detail h1 {
   font-size: 32px;
   margin-bottom: 15px;
+  margin-left: 150px;
   color: #222;
 }
 .news-detail p:first-of-type {
   font-size: 14px;
   color: #555;
   margin-bottom: 20px;
+  margin-left: 170px;
 }
 .news-detail img {
-  width: 60%;                  
+  width: 70%;                  
   display: block;
   margin: 20px auto;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 .news-detail p:not(:first-of-type) {
-  margin-bottom: 20px;         
+  margin-bottom: 20px;  
+  margin-top: 50px;       
   font-size: 16px;
   color: #555;
 }
 .news-nav-buttons {
   display: flex;
-  justify-content: center; /* ეს ცენტრში განათავსებს */
+  justify-content: center; 
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -672,7 +674,6 @@ h2::after {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 
 
 /*--TESTIMONIALS SECTION--*/
