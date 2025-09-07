@@ -1,18 +1,20 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const NewsSection = () => {
+  const router = useRouter();
+
   const [news, setNews] = useState([]);
-  const [expandedItems, setExpandedItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Fetch news
+  // Fetch news from API
   const fetchNews = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/news`);
+      const res = await fetch("/api/news");
       if (!res.ok) throw new Error("ვერ მოვიტანე სიახლეები");
       const data = await res.json();
       const sortedNews = data.news.sort(
@@ -35,18 +37,16 @@ const NewsSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleExpand = (_id) => {
-    setExpandedItems((prev) =>
-      prev.includes(_id) ? prev.filter((i) => i !== _id) : [...prev, _id]
-    );
-  };
-
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % news.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + news.length) % news.length);
+  };
+
+  const handleReadMore = (id) => {
+    router.push(`/news/${id}`);
   };
 
   if (loading)
@@ -83,6 +83,7 @@ const NewsSection = () => {
             } else {
               visible = index >= currentIndex && index < currentIndex + cardsToShow;
             }
+
             return (
               <div
                 key={item._id}
@@ -99,18 +100,16 @@ const NewsSection = () => {
                     {new Date(item.date).toLocaleDateString("ka-GE")}
                   </p>
                   <p className="news-text">
-                    {expandedItems.includes(item._id)
-                      ? item.text
-                      : item.text.length > 90
+                    {item.text.length > 90
                       ? item.text.slice(0, 90) + "..."
                       : item.text}
                   </p>
                   {item.text.length > 90 && (
                     <button
-                      onClick={() => toggleExpand(item._id)}
+                      onClick={() => handleReadMore(item._id)}
                       className="read-more-btn"
                     >
-                      {expandedItems.includes(item._id) ? "აკეცვა" : "სრულად"}
+                      სრულად
                     </button>
                   )}
                 </div>
