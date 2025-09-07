@@ -1,11 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import TopHeader from "../../components/TopHeader";
 import MainHeader from "../../components/MainHeader";
 import ContactInfo from "../../components/ContactInfo";
 import LocationAndFooter from "../../components/LocationAndFooter";
-
 
 const AboutClinic = () => {
   const router = useRouter();
@@ -14,47 +13,45 @@ const AboutClinic = () => {
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleNavigate = () => {
-    router.push("/administration-full");
-  };
+  // Swipe references
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+  const minSwipeDistance = 50;
 
-  const toggleSection = (section) => {
-    setActiveSection(activeSection === section ? null : section);
-  };
-
-  const openModal = (index) => {
-    setModalIndex(index);
-  };
-
-  const closeModal = () => {
-    setModalIndex(null);
-  };
-
-  const prevImage = (e) => {
-    e.stopPropagation();
-    setModalIndex((prev) => (prev === 0 ? clinicImages.length - 1 : prev - 1));
-  };
-
-  const nextImage = (e) => {
-    e.stopPropagation();
-    setModalIndex((prev) => (prev === clinicImages.length - 1 ? 0 : prev + 1));
-  };
-
+  const handleNavigate = () => router.push("/administration-full");
+  const toggleSection = (section) => setActiveSection(activeSection === section ? null : section);
+  const openModal = (index) => setModalIndex(index);
+  const closeModal = () => setModalIndex(null);
   const toggleGallery = () => {
     setGalleryOpen(!galleryOpen);
     setCurrentPage(1);
   };
 
-  // სურათები public/img/galery/1.jpg ... 20.jpg
-  const clinicImages = Array.from({ length: 20 }, (_, i) => `/img/galery/${i + 1}.jpg`);
+  // Swipe handlers
+  const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchMove = (e) => { touchEndX.current = e.touches[0].clientX; };
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      setModalIndex((prev) => (prev === clinicImages.length - 1 ? 0 : prev + 1));
+    } else if (distance < -minSwipeDistance) {
+      setModalIndex((prev) => (prev === 0 ? clinicImages.length - 1 : prev - 1));
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
+  const prevImage = (e) => { e.stopPropagation(); setModalIndex((prev) => (prev === 0 ? clinicImages.length - 1 : prev - 1)); };
+  const nextImage = (e) => { e.stopPropagation(); setModalIndex((prev) => (prev === clinicImages.length - 1 ? 0 : prev + 1)); };
+
+  const clinicImages = Array.from({ length: 20 }, (_, i) => `/img/galery/${i + 1}.jpg`);
   const imagesPerPage = 4;
   const totalPages = Math.ceil(clinicImages.length / imagesPerPage);
   const paginatedImages = clinicImages.slice((currentPage - 1) * imagesPerPage, currentPage * imagesPerPage);
 
   return (
     <>
-      
       <TopHeader />
       <MainHeader />
 
@@ -63,7 +60,7 @@ const AboutClinic = () => {
           <img src="/img/galery/wrc.jpg" alt="კლინიკის ჰერო" style={styles.heroImage} />
         </div>
 
-        <div style={styles.clinicInfo}>
+          <div style={styles.clinicInfo}>
           <h2>ჩვენს შესახებ</h2>
 
           <div
@@ -219,11 +216,23 @@ const AboutClinic = () => {
           </>
         )}
 
+        {/* Modal */}
         {modalIndex !== null && (
-          <div style={styles.modal} onClick={closeModal}>
+          <div
+            style={styles.modal}
+            onClick={closeModal}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <span style={styles.closeButton} onClick={closeModal}>&times;</span>
             <button onClick={prevImage} style={styles.arrowLeft}>&#10094;</button>
-            <img style={styles.modalContent} src={clinicImages[modalIndex]} alt="გადიდებული სურათი" onClick={(e) => e.stopPropagation()} />
+            <img
+              style={styles.modalContent}
+              src={clinicImages[modalIndex]}
+              alt="გადიდებული სურათი"
+              onClick={(e) => e.stopPropagation()}
+            />
             <button onClick={nextImage} style={styles.arrowRight}>&#10095;</button>
           </div>
         )}
@@ -261,38 +270,12 @@ const AboutClinic = () => {
 
           <button onClick={() => toggleSection("admin")} style={styles.accordionButton}>ადმინისტრაცია</button>
           {activeSection === "admin" && (
-          <div style={{
-              display: "flex",
-              alignItems: "center", 
-              gap: "20px",
-            }}>
-              <img
-                src="/img/founders/shota-ingorokva.png"
-                alt="თემურ ქარდავა"
-                style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover" }}
-              />
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <p style={{marginTop: "55px"}}>თემურ ქარდავა – ადმინისტრაციის მენეჯერი</p>
-                <button
-                  style={{
-                    padding: "6px 12px",
-                    backgroundColor: "#EC7C19",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    marginTop: "25px",
-                    marginLeft: "50px",
-                    width: "fit-content",
-                  }}
-                  onClick={handleNavigate}
-                >
-                  ადმინისტრაცია სრულად
-                </button>
-              </div>
+            <div style={styles.founderItem}>
+              <img src="/img/founders/shota-ingorokva.png" alt="თემურ ქარდავა " style={styles.founderImage} />
+              <p>თემურ ქარდავა ადმინისტრაციის მენეჯერი</p>
+              <button style={styles.detailsButton} onClick={handleNavigate}>ადმინისტრაცია სრულად</button>
             </div>
           )}
-
         </div>
       </div>
 
@@ -301,6 +284,7 @@ const AboutClinic = () => {
     </>
   );
 };
+
 
 const styles = {
   container: {
@@ -448,16 +432,25 @@ const styles = {
   },
   founderItem: {
     display: "flex",
-    alignItems: "center", 
-    gap: "20px",          
-    marginBottom: "15px", 
+    alignItems: "center",
+    marginBottom: "8px",
   },
   founderImage: {
     width: "80px",
     height: "80px",
     borderRadius: "50%",
     objectFit: "cover",
-  }
-  
+    marginRight: "30px",
+  },
+  detailsButton: {
+    padding: "6px 12px",
+    backgroundColor: "#EC7C19",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "100px",
+  },
 };
+
 export default AboutClinic;
