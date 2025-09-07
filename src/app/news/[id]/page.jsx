@@ -13,11 +13,6 @@ const NewsDetail = () => {
   const [loading, setLoading] = useState(true);
   const [allNews, setAllNews] = useState([]);
 
-  // Swipe state
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-  const minSwipeDistance = 50;
-
   // Fetch single news
   useEffect(() => {
     if (!id) return;
@@ -66,21 +61,6 @@ const NewsDetail = () => {
     }
   };
 
-  // Swipe handlers
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    if (distance > minSwipeDistance) navigateNews("next"); // swipe left
-    else if (distance < -minSwipeDistance) navigateNews("prev"); // swipe right
-  };
-
   if (loading)
     return (
       <>
@@ -107,12 +87,7 @@ const NewsDetail = () => {
     <>
       <TopHeader />
       <MainHeader />
-      <section
-        className="news-detail"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
+      <section className="news-detail">
         <h1>{newsItem.title}</h1>
         <p className="news-date">{new Date(newsItem.date).toLocaleDateString("ka-GE")}</p>
         <img src={newsItem.image || "/img/news/default.jpg"} alt={newsItem.title} />
