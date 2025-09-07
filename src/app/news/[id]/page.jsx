@@ -64,6 +64,7 @@ const NewsDetail = () => {
   if (loading)
     return (
       <>
+        <TopHeader />
         <MainHeader />
         <p style={{ textAlign: "center", marginTop: "100px" }}>
           მიმდინარეობს ჩატვირთვა...
@@ -75,6 +76,7 @@ const NewsDetail = () => {
   if (!newsItem)
     return (
       <>
+        <TopHeader />
         <MainHeader />
         <p style={{ textAlign: "center", marginTop: "100px" }}>სიახლე ვერ მოიძებნა</p>
         <LocationAndFooter />
@@ -89,21 +91,29 @@ const NewsDetail = () => {
         <h1>{newsItem.title}</h1>
         <p className="news-date">{new Date(newsItem.date).toLocaleDateString("ka-GE")}</p>
         <img src={newsItem.image || "/img/news/default.jpg"} alt={newsItem.title} />
-        <p className="news-text">{newsItem.text}</p>
-         <div className="news-nav-buttons">
-          <button 
-            className="prev-btn" 
+        <p className="news-text">
+          {newsItem.text.split("\n").map((line, index) => (
+            <span key={index}>
+              {line}
+              <br />
+            </span>
+          ))}
+        </p>
+
+        <div className="news-nav-buttons">
+          <button
+            className="prev-btn"
             onClick={() => navigateNews("prev")}
-            disabled={allNews.findIndex(item => item._id === id) === 0}
+            disabled={allNews.findIndex((item) => item._id === id) === 0}
           >
-            ← 
+            ←
           </button>
-          <button 
-            className="next-btn" 
+          <button
+            className="next-btn"
             onClick={() => navigateNews("next")}
-            disabled={allNews.findIndex(item => item._id === id) === allNews.length - 1}
+            disabled={allNews.findIndex((item) => item._id === id) === allNews.length - 1}
           >
-             →
+            →
           </button>
         </div>
       </section>
