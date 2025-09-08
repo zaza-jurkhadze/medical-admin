@@ -13,7 +13,11 @@ const NewsSection = () => {
   // Swipe references
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
-  const minSwipeDistance = 50; // მინ. მანძილი, რომ swipe ჩაითვალოს
+  const minSwipeDistance = 50;
+
+  // Slider interval
+  const slideInterval = useRef(null);
+  const intervalDelay = 3000; // 3 წამი
 
   // Fetch news from API
   const fetchNews = async () => {
@@ -42,11 +46,27 @@ const NewsSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Slider auto-move
+  useEffect(() => {
+    if (news.length === 0) return;
+
+    const startSlider = () => {
+      slideInterval.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % news.length);
+      }, intervalDelay);
+    };
+
+    startSlider();
+    return () => clearInterval(slideInterval.current);
+  }, [news]);
+
   const nextSlide = () => {
+    clearInterval(slideInterval.current);
     setCurrentIndex((prev) => (prev + 1) % news.length);
   };
 
   const prevSlide = () => {
+    clearInterval(slideInterval.current);
     setCurrentIndex((prev) => (prev - 1 + news.length) % news.length);
   };
 
@@ -58,7 +78,7 @@ const NewsSection = () => {
   const handleTouchStart = (e) => {
     const tagName = e.target.tagName.toLowerCase();
     if (tagName === "button" || tagName === "a") {
-      touchStartX.current = null; // არ უნდა დაიწყოს swipe ღილაკზე
+      touchStartX.current = null;
       return;
     }
     touchStartX.current = e.touches[0].clientX;
@@ -69,19 +89,12 @@ const NewsSection = () => {
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX.current === null || touchEndX.current === null) {
-      touchStartX.current = null;
-      touchEndX.current = null;
-      return;
-    }
+    if (touchStartX.current === null || touchEndX.current === null) return;
 
     const distance = touchStartX.current - touchEndX.current;
 
-    if (distance > minSwipeDistance) {
-      nextSlide(); // swipe left → next
-    } else if (distance < -minSwipeDistance) {
-      prevSlide(); // swipe right → prev
-    }
+    if (distance > minSwipeDistance) nextSlide();
+    else if (distance < -minSwipeDistance) prevSlide();
 
     touchStartX.current = null;
     touchEndX.current = null;
@@ -102,7 +115,7 @@ const NewsSection = () => {
       </p>
     );
 
-  let cardsToShow = 3; // default desktop
+  let cardsToShow = 3;
   if (windowWidth <= 768) cardsToShow = 1;
   else if (windowWidth <= 992) cardsToShow = 2;
 
