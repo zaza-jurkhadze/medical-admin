@@ -64,24 +64,25 @@ const NewsSection = () => {
     touchStartX.current = e.touches[0].clientX;
   };
 
-  const handleTouchMove = (e) => {
-    if (touchStartX.current === null) return;
-    touchEndX.current = e.touches[0].clientX;
-  };
-
   const handleTouchEnd = () => {
-    if (touchStartX.current === null) return;
-
+    if (touchStartX.current === null || touchEndX.current === null) {
+      touchStartX.current = null;
+      touchEndX.current = null;
+      return; // უბრალოდ შეეხო და არ გაასრიალა → არაფერი არ უნდა მოხდეს
+    }
+  
     const distance = touchStartX.current - touchEndX.current;
+  
     if (distance > minSwipeDistance) {
       nextSlide(); // swipe left → next
     } else if (distance < -minSwipeDistance) {
       prevSlide(); // swipe right → prev
     }
-
+  
     touchStartX.current = null;
     touchEndX.current = null;
   };
+
 
   if (loading)
     return (
