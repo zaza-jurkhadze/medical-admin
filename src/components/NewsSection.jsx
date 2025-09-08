@@ -13,7 +13,7 @@ const NewsSection = () => {
   // Swipe references
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
-  const minSwipeDistance = 50; // მინ. მანძილი swipe-სთვის
+  const minSwipeDistance = 50;
 
   // Fetch news from API
   const fetchNews = async () => {
@@ -43,15 +43,11 @@ const NewsSection = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev + 1 >= news.length ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev + 1) % news.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev - 1 < 0 ? news.length - 1 : prev - 1
-    );
+    setCurrentIndex((prev) => (prev - 1 + news.length) % news.length);
   };
 
   const handleReadMore = (id) => {
@@ -62,7 +58,7 @@ const NewsSection = () => {
   const handleTouchStart = (e) => {
     const tagName = e.target.tagName.toLowerCase();
     if (tagName === "button" || tagName === "a") {
-      touchStartX.current = null; // swipe არ დაიწყოს clickable-ზე
+      touchStartX.current = null;
       return;
     }
     touchStartX.current = e.touches[0].clientX;
@@ -103,9 +99,15 @@ const NewsSection = () => {
       </p>
     );
 
-  let cardsToShow = 3; // default desktop
+  let cardsToShow = 3;
   if (windowWidth <= 768) cardsToShow = 1;
   else if (windowWidth <= 992) cardsToShow = 2;
+
+  // Loop logic: visible cards
+  const visibleCards = [];
+  for (let i = 0; i < cardsToShow; i++) {
+    visibleCards.push(news[(currentIndex + i) % news.length]);
+  }
 
   return (
     <section id="news" className="news-section">
@@ -117,19 +119,9 @@ const NewsSection = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div
-          className="news-grid"
-          style={{
-            display: "grid",
-            gridAutoFlow: "column",
-            gridTemplateColumns: `repeat(${news.length}, 1fr)`,
-            transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)`,
-            transition: "transform 0.5s ease-in-out",
-            width: `${(news.length / cardsToShow) * 100}%`,
-          }}
-        >
-          {news.map((item) => (
-            <div key={item._id} className="news-card">
+        <div className="news-grid">
+          {visibleCards.map((item) => (
+            <div key={item._id} className="news-card active">
               <img
                 src={item.image || "/img/news/default.jpg"}
                 alt={item.title}
