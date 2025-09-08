@@ -13,7 +13,7 @@ const NewsSection = () => {
   // Swipe references
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
-  const minSwipeDistance = 50; // მინ. მანძილი, რომ swipe ჩაითვალოს
+  const minSwipeDistance = 50; // მინ. მანძილი swipe-სთვის
 
   // Fetch news from API
   const fetchNews = async () => {
@@ -43,11 +43,15 @@ const NewsSection = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % news.length);
+    setCurrentIndex((prev) =>
+      prev + 1 >= news.length ? 0 : prev + 1
+    );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + news.length) % news.length);
+    setCurrentIndex((prev) =>
+      prev - 1 < 0 ? news.length - 1 : prev - 1
+    );
   };
 
   const handleReadMore = (id) => {
@@ -58,7 +62,7 @@ const NewsSection = () => {
   const handleTouchStart = (e) => {
     const tagName = e.target.tagName.toLowerCase();
     if (tagName === "button" || tagName === "a") {
-      touchStartX.current = null; // არ უნდა დაიწყოს swipe ღილაკზე
+      touchStartX.current = null; // swipe არ დაიწყოს clickable-ზე
       return;
     }
     touchStartX.current = e.touches[0].clientX;
@@ -77,11 +81,8 @@ const NewsSection = () => {
 
     const distance = touchStartX.current - touchEndX.current;
 
-    if (distance > minSwipeDistance) {
-      nextSlide(); // swipe left → next
-    } else if (distance < -minSwipeDistance) {
-      prevSlide(); // swipe right → prev
-    }
+    if (distance > minSwipeDistance) nextSlide();
+    else if (distance < -minSwipeDistance) prevSlide();
 
     touchStartX.current = null;
     touchEndX.current = null;
@@ -116,48 +117,45 @@ const NewsSection = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="news-grid">
-          {news.map((item, index) => {
-            let visible = false;
-            if (windowWidth <= 768) {
-              visible = index === currentIndex;
-            } else {
-              visible =
-                index >= currentIndex && index < currentIndex + cardsToShow;
-            }
-
-            return (
-              <div
-                key={item._id}
-                className={`news-card ${visible ? "active" : "inactive"}`}
-              >
-                <img
-                  src={item.image || "/img/news/default.jpg"}
-                  alt={item.title}
-                  className="news-image"
-                />
-                <div className="news-content">
-                  <h3 className="news-title">{item.title}</h3>
-                  <p className="news-date">
-                    {new Date(item.date).toLocaleDateString("ka-GE")}
-                  </p>
-                  <p className="news-text">
-                    {item.text.length > 90
-                      ? item.text.slice(0, 90) + "..."
-                      : item.text}
-                  </p>
-                  {item.text.length > 90 && (
-                    <button
-                      onClick={() => handleReadMore(item._id)}
-                      className="read-more-btn"
-                    >
-                      სრულად
-                    </button>
-                  )}
-                </div>
+        <div
+          className="news-grid"
+          style={{
+            display: "grid",
+            gridAutoFlow: "column",
+            gridTemplateColumns: `repeat(${news.length}, 1fr)`,
+            transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)`,
+            transition: "transform 0.5s ease-in-out",
+            width: `${(news.length / cardsToShow) * 100}%`,
+          }}
+        >
+          {news.map((item) => (
+            <div key={item._id} className="news-card">
+              <img
+                src={item.image || "/img/news/default.jpg"}
+                alt={item.title}
+                className="news-image"
+              />
+              <div className="news-content">
+                <h3 className="news-title">{item.title}</h3>
+                <p className="news-date">
+                  {new Date(item.date).toLocaleDateString("ka-GE")}
+                </p>
+                <p className="news-text">
+                  {item.text.length > 90
+                    ? item.text.slice(0, 90) + "..."
+                    : item.text}
+                </p>
+                {item.text.length > 90 && (
+                  <button
+                    onClick={() => handleReadMore(item._id)}
+                    className="read-more-btn"
+                  >
+                    სრულად
+                  </button>
+                )}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
         {news.length > cardsToShow && (
