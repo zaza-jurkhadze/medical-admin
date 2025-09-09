@@ -13,7 +13,7 @@ const NewsSection = () => {
   // Swipe references
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
-  const minSwipeDistance = 50; // minimal distance to count as swipe
+  const minSwipeDistance = 50; // მინ. მანძილი, რომ swipe ჩაითვალოს
 
   // Fetch news from API
   const fetchNews = async () => {
@@ -58,21 +58,25 @@ const NewsSection = () => {
   const handleTouchStart = (e) => {
     const tagName = e.target.tagName.toLowerCase();
     if (tagName === "button" || tagName === "a") {
-      touchStartX.current = null; // swipe არ დაიწყოს clickable-ზე
+      touchStartX.current = null; // არ უნდა დაიწყოს swipe ღილაკზე
       return;
     }
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchMove = (e) => {
-    if (touchStartX.current === null) return;
     touchEndX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX.current === null) return;
+    if (touchStartX.current === null || touchEndX.current === null) {
+      touchStartX.current = null;
+      touchEndX.current = null;
+      return;
+    }
 
     const distance = touchStartX.current - touchEndX.current;
+
     if (distance > minSwipeDistance) {
       nextSlide(); // swipe left → next
     } else if (distance < -minSwipeDistance) {
@@ -118,7 +122,8 @@ const NewsSection = () => {
             if (windowWidth <= 768) {
               visible = index === currentIndex;
             } else {
-              visible = index >= currentIndex && index < currentIndex + cardsToShow;
+              visible =
+                index >= currentIndex && index < currentIndex + cardsToShow;
             }
 
             return (
