@@ -6,7 +6,7 @@ import '../app/styles/globals.css';
 import '../app/styles/responsive.css';
 
 const BRAND_COLOR = '#EC7C19';
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 5;
 
 export default function Services() {
   const [servicesData, setServicesData] = useState([]);
@@ -52,7 +52,7 @@ export default function Services() {
     if (showAll || searchTerm) return;
     const changeRandom = () => {
       const shuffled = [...servicesData].sort(() => 0.5 - Math.random());
-      setRandomServices(shuffled.slice(0, 4));
+      setRandomServices(shuffled.slice(0, 5));
     };
     changeRandom();
     const interval = setInterval(changeRandom, 15000);
