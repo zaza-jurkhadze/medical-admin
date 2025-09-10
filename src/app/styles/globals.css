@@ -35,12 +35,12 @@ h2 {
 
 h2::after {
     display: block;
-    height: 2px;
+    height: 1px;
     background-color:#555;
-    width: 350px;
+    width: 300px;
     content: " ";
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 /*--TOPHEADER--*/
 .top-header {
