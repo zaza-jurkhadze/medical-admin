@@ -42,8 +42,6 @@ h2::after {
     margin: 0 auto;
     margin-top: 30px;
 }
-
-
 /*--TOPHEADER--*/
 .top-header {
   background-color: #e6f0ff;
@@ -83,8 +81,6 @@ h2::after {
 #root {
   height: 100%;
 }
-
-
 /*--MAINHEADER--*/
 
 .mobile-menu {
