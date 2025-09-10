@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import MainHeader from "@/components/MainHeader";
 import ContactInfo from "@/components/ContactInfo";
 import LocationAndFooter from "@/components/LocationAndFooter";
-import TopBar from "@/app/dashboard/Layout/TopBar";
 import TopHeader from "@/components/TopHeader";
 
 const ITEMS_PER_PAGE = 12;
