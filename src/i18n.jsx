@@ -17,11 +17,17 @@ if (!i18n.isInitialized) {
         ka: { common: ka },
         ru: { common: ru },
       },
+      supportedLngs: ['ka', 'en', 'ru'],
+      load: 'languageOnly',
       fallbackLng: 'ka',
       ns: ['common'],
       defaultNS: 'common',
       interpolation: { escapeValue: false },
       react: { useSuspense: false },
+      detection: {
+        order: ['localStorage', 'navigator', 'htmlTag'],
+        caches: ['localStorage'],
+      },
     });
 }
 
