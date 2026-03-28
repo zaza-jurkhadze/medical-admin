@@ -306,7 +306,7 @@ export default function AdminDoctors() {
               </button>
             ) : (
               <button onClick={addDoctor} disabled={loading} style={{ padding: "0.7rem", backgroundColor: "#EC7C19", color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold", marginTop: "1rem", opacity: loading ? 0.7 : 1 }}>
-                {loading ? "Saving..." : "Add Doctor"}
+                {loading ? "Saving..." : "ექიმის დამატება"}
               </button>
             )}
           </div>

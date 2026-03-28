@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true, // 🔹 აქტიურობს React-ის strict mode
+  images: {
+    domains: ["res.cloudinary.com"], // 🔹 Cloudinary hostname
+  },
 };
 
 export default nextConfig;

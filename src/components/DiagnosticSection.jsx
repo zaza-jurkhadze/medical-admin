@@ -1,30 +1,36 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const imageList = {
   diagnostic: Array.from({ length: 8 }, (_, i) => `/img/diagnostic/${i + 1}.png`),
   laboratory: Array.from({ length: 8 }, (_, i) => `/img/laboratory/${i + 1}.png`),
 };
 
-const departmentData = [
-  {
-    id: "first",
-    title: "დიაგნოსტიკური დეპარტამენტი",
-    description: `მაღალტექნოლოგიური დიაგნოსტიკა სიზუსტისა და სანდოობის გარანტიით...`,
-    images: imageList.diagnostic,
-  },
-  {
-    id: "second",
-    title: "ლაბორატორია",
-    description: `სწრაფი და ზუსტი ანალიზები, რომლებსაც შეგიძლიათ ენდოთ...`,
-    images: imageList.laboratory,
-  },
-];
-
 const DiagnosticSection = () => {
+  const { t } = useTranslation("common");
   const [pages, setPages] = useState({});
+  const [mounted, setMounted] = useState(false);
+
+  // departmentData ვქმნით პირდაპირ, მხოლოდ ერთხელ
+  const departmentData = [
+    {
+      id: "first",
+      title: t("diagnosticDepartmentTitle"),
+      description: t("diagnosticDepartmentDescription"),
+      images: imageList.diagnostic,
+    },
+    {
+      id: "second",
+      title: t("laboratoryTitle"),
+      description: t("laboratoryDescription"),
+      images: imageList.laboratory,
+    },
+  ];
 
   useEffect(() => {
+    setMounted(true);
+
     const handleResize = () => {
       const width = window.innerWidth;
       const itemsPerPage = width <= 480 ? 2 : width <= 992 ? 4 : 8;
@@ -45,7 +51,7 @@ const DiagnosticSection = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [t]); // ენის ცვლილებისას თავიდან დაიქალკულირდება pagination
 
   const handlePageClick = (depId, pageNum) => {
     setPages((prev) => ({
@@ -57,8 +63,10 @@ const DiagnosticSection = () => {
     }));
   };
 
+  if (!mounted) return null; // Hydration mismatch თავიდან ასაცილებლად
+
   return (
-    <section id="">
+    <section>
       {departmentData.map(({ id, title, description, images }) => {
         const currentPage = pages[id]?.current || 1;
         const perPage = pages[id]?.perPage || images.length;
@@ -101,3 +109,4 @@ const DiagnosticSection = () => {
 };
 
 export default DiagnosticSection;
+

@@ -1,9 +1,10 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Head from "next/head";
 import Image from "next/image";
+import '../../../app/../i18n';
+import { useTranslation } from "react-i18next";
 import MainHeader from "@/components/MainHeader";
 import LocationAndFooter from "@/components/LocationAndFooter";
 import ContactInfo from "@/components/ContactInfo";
@@ -13,6 +14,7 @@ import styles from "./DoctorDetail.module.css";
 
 export default function DoctorDetail() {
   const { doctorSlug } = useParams();
+  const { t } = useTranslation();
 
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,58 +25,58 @@ export default function DoctorDetail() {
     setLoading(true);
     setError("");
 
-    (async () => {
+    const fetchDoctor = async () => {
       try {
         const res = await fetch(`/api/doctors?doctorSlug=${doctorSlug}`);
-        if (!res.ok) throw new Error("ექიმი ვერ მოიძებნა");
-        const data = await res.json();
+        if (!res.ok) throw new Error("doctorNotFound");
 
-        // თუ API აბრუნებს მასივს → ავიღოთ პირველი
+        const data = await res.json();
         const doctorData = Array.isArray(data) ? data[0] : data;
 
-        if (!doctorData) throw new Error("ექიმი ვერ მოიძებნა");
+        if (!doctorData) throw new Error("doctorNotFound");
         if (!cancelled) setDoctor(doctorData);
       } catch (e) {
-        if (!cancelled) setError(e.message || "შეცდომა მოხდა");
+        if (!cancelled) setError(t(e.message) || t("errorOccurred"));
       } finally {
         if (!cancelled) setLoading(false);
       }
-    })();
+    };
+
+    fetchDoctor();
 
     return () => {
-      cancelled = true;
+      cancelled = true; 
     };
   }, [doctorSlug]);
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <p>იტვირთება ექიმის ინფორმაცია...</p>
-      </div>
-    );
-  }
+  return (
+    <div className={styles.loading}>
+      <p>{t("loadingDoctorInfo")}</p>
+    </div>
+  );
+}
+
 
   if (error || !doctor) {
     return (
-      <div className={styles.notFound}>
-        <p>{error || "ექიმი ვერ მოიძებნა"}</p>
-        <a href="/#doctors" className={styles.backLink}>
-          ← ექიმების გვერდზე დაბრუნება
-        </a>
+      <div>
+        <p>{error || t("doctorNotFound")}</p>
+        <a href="/#doctors">← {t("backToDoctors")}</a>
       </div>
     );
   }
 
   return (
     <>
-      <Head>
+     <Head>
         <title>{doctor.name} | ექიმი</title>
         <meta
           name="description"
           content={`${doctor.name} - ${doctor.position}. განათლება: ${doctor.education || "ინფორმაცია არ არის"}.`}
         />
       </Head>
-
+      
       <MainHeader />
 
       <div className={styles.wrapper}>
@@ -85,6 +87,7 @@ export default function DoctorDetail() {
               alt={doctor.name}
               width={200}
               height={200}
+              priority
               className={styles.doctorImage}
               onError={(e) => {
                 e.currentTarget.src = "/img/doctors/default.jpg";
@@ -98,13 +101,16 @@ export default function DoctorDetail() {
 
           <div className={styles.details}>
             <p>
-              <strong>ბიოგრაფია:</strong> {doctor.bio || "ინფორმაცია მალე დაემატება."}
+              <strong>{t("doctorBio")}:</strong>{" "}
+              {doctor.bio || t("infoComingSoon")}
             </p>
             <p>
-              <strong>განათლება:</strong> {doctor.education || "ინფორმაცია მალე დაემატება."}
+              <strong>{t("doctorEducation")}:</strong>{" "}
+              {doctor.education || t("infoComingSoon")}
             </p>
             <p>
-              <strong>სტაჟი:</strong> {doctor.experience || "ინფორმაცია მალე დაემატება."}
+              <strong>{t("doctorExperience")}:</strong>{" "}
+              {doctor.experience || t("infoComingSoon")}
             </p>
           </div>
         </div>

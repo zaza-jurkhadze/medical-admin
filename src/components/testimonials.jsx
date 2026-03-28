@@ -1,41 +1,38 @@
-"use client"; 
+"use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import doctorImg from "../../public/img/testimonials/1.jpg";
+import { useTranslation } from "react-i18next";
 
 const testimonials = [
-  {
-    text: "საოცარი პროფესიონალები და თბილი გარემო. ყოველი ვიზიტი უსაფრთხოების განცდას მიტოვებდა...ბევრი ექიმი ვნახე მანამდე, მაგრამ თქვენს კლინიკაში პირველად ვიგრძენი ნდობა და სიმშვიდე...",
-    name: "ალექსანდრე დვარაკოვსკი",
-    image: doctorImg,
-  },
-  {
-    text: "ექიმების ყურადღება და ზრუნვა დაუვიწყარია. სწორი დიაგნოზი, სწრაფი რეაგირება...ბევრი ექიმი ვნახე მანამდე, მაგრამ თქვენს კლინიკაში პირველად ვიგრძენი ნდობა და სიმშვიდე...",
-    name: "ალექსანდრე დვარაკოვსკი",
-    image: doctorImg,
-  },
-  {
-    text: "ბევრი ექიმი ვნახე მანამდე, მაგრამ თქვენს კლინიკაში პირველად ვიგრძენი ნდობა და სიმშვიდე...ბევრი ექიმი ვნახე მანამდე, მაგრამ თქვენს კლინიკაში პირველად ვიგრძენი ნდობა და სიმშვიდე...",
-    name: "ალექსანდრე დვარაკოვსკი",
-    image: doctorImg,
-  },
+  { textKey: "testimonial1", nameKey: "testimonialName1", image: doctorImg },
+  { textKey: "testimonial2", nameKey: "testimonialName2", image: doctorImg },
+  { textKey: "testimonial3", nameKey: "testimonialName3", image: doctorImg },
 ];
 
 const PatientSection = () => {
+  const { t } = useTranslation();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // დარწმუნება, რომ component fully loaded on client
+  }, []);
+
+  if (!mounted) return null;
   return (
     <section className="patient-section" id="patients">
       <div className="section-header">
-        <h2>მადლიერი პაციენტები</h2>
+        <h2>{t("patientSectionTitle")}</h2>
       </div>
 
       <div className="patient-grid">
-        {testimonials.map((t, index) => (
+        {testimonials.map((tst, index) => (
           <div key={index} className="patient-card">
             <blockquote>
-              “{t.text}”
+              “{t(tst.textKey)}”
               <cite>
-                <img src={t.image.src} alt={t.name} />
-                <span>{t.name}</span>
+                <img src={tst.image.src} alt={t(tst.nameKey)} />
+                <span>{t(tst.nameKey)}</span>
               </cite>
             </blockquote>
           </div>

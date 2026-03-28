@@ -12,7 +12,7 @@ const MessengerButton = () => {
         width: '55px',
         height: '55px',
         borderRadius: '50%',
-        backgroundColor: '#0084FF', // Messenger-ის ლურჯი ფერი
+        backgroundColor: '#0084FF', 
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

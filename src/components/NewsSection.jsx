@@ -1,112 +1,198 @@
 "use client";
-import React, { useState, useEffect } from "react";
 
-const ITEMS_PER_PAGE = 3;
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const NewsSection = () => {
+  const router = useRouter();
+  const { t, i18n } = useTranslation();
+
   const [news, setNews] = useState([]);
-  const [expandedItems, setExpandedItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
-  const fetchNews = async (page = 1) => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/news?page=${page}&limit=${ITEMS_PER_PAGE}`);
-      if (!res.ok) throw new Error("ვერ მოვიტანე სიახლეები");
-      const data = await res.json();
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+  const minSwipeDistance = 50;
 
-      const sortedNews = data.news.sort((a, b) => new Date(b.date) - new Date(a.date));
-      setNews(sortedNews);
-      setTotalPages(data.totalPages);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+  const currentLang = i18n.language || "ka";
+
+  useEffect(() => {
+    setIsClient(true);
+
+    const fetchNews = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/news");
+        if (!res.ok) throw new Error(t("failedFetchNews"));
+        const data = await res.json();
+        const sortedNews = data.news
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .map((n) => ({
+            ...n,
+            title: n.title || { ka: "", en: "", ru: "" },
+            text: n.text || { ka: "", en: "", ru: "" },
+          }));
+        setNews(sortedNews);
+      } catch (err) {
+        console.error(err);
+        setNews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+    setWindowWidth(window.innerWidth);
+
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [t]);
+
+  const nextSlide = () => {
+    if (news.length === 0) return;
+    setCurrentIndex((prev) => (prev + 1) % news.length);
+  };
+
+  const prevSlide = () => {
+    if (news.length === 0) return;
+    setCurrentIndex((prev) => (prev - 1 + news.length) % news.length);
+  };
+
+  const handleReadMore = (id) => {
+    router.push(`/news/${id}`);
+  };
+
+  const handleTouchStart = (e) => {
+    const tagName = e.target.tagName.toLowerCase();
+    if (tagName === "button" || tagName === "a") {
+      touchStartX.current = null;
+      return;
     }
+    touchStartX.current = e.touches[0].clientX;
   };
 
-  // პირველი useEffect - mount-ის დროს
-  useEffect(() => {
-    setCurrentPage(1);
-    fetchNews(1); 
-  }, []);
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
 
-  // მეორე useEffect - currentPage ცვლილებისას Pagination-ისთვის
-  useEffect(() => {
-    fetchNews(currentPage);
-  }, [currentPage]);
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
 
-  const toggleExpand = (_id) => {
-    setExpandedItems((prev) =>
-      prev.includes(_id) ? prev.filter((i) => i !== _id) : [...prev, _id]
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) nextSlide();
+    else if (distance < -minSwipeDistance) prevSlide();
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  if (!isClient) return null;
+
+  if (loading)
+    return (
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "200px",
+          fontSize: "18px",
+        }}
+      >
+        {t("loading")}
+      </p>
     );
-  };
 
-  if (loading) return <p className="news-loading">მოცდა...</p>;
+  if (news.length === 0)
+    return (
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "200px",
+          fontSize: "18px",
+        }}
+      >
+        {t("failedFetchNews")}
+      </p>
+    );
+
+  let cardsToShow = 3;
+  if (windowWidth <= 768) cardsToShow = 1;
+  else if (windowWidth <= 992) cardsToShow = 2;
 
   return (
     <section id="news" className="news-section">
-      <h2 className="section-title">სიახლეები</h2>
-      <div className="news-grid">
-        {news.map((item) => (
-          <div key={item._id} className="news-card">
-            <img
-              src={item.image || "/img/news/default.jpg"}
-              alt={item.title}
-              className="news-image"
-            />
-            <div className="news-content">
-              <h3 className="news-title">{item.title}</h3>
-              <p className="news-date">
-                {new Date(item.date).toLocaleDateString("ka-GE")}
-              </p>
-              <p className="news-text">
-                {expandedItems.includes(item._id)
-                  ? item.text
-                  : item.text.length > 90
-                  ? item.text.slice(0, 90) + "..."
-                  : item.text}
-              </p>
-              {item.text.length > 90 && (
-                <button
-                  onClick={() => toggleExpand(item._id)}
-                  className="read-more-btn"
-                >
-                  {expandedItems.includes(item._id) ? "აკეცვა" : "სრულად"}
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+      <h2 className="section-title">{t("news")}</h2>
 
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button
-            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            &lt;
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-              className={currentPage === i + 1 ? "active" : ""}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-            disabled={currentPage === totalPages}
-          >
-            &gt;
-          </button>
+      <div
+        className="news-grid-wrapper"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="news-grid">
+          {news.map((item, index) => {
+            let visible = false;
+            if (windowWidth <= 768)
+              visible = index === currentIndex;
+            else
+              visible =
+                index >= currentIndex && index < currentIndex + cardsToShow;
+
+            const itemTitle = item.title[currentLang] || "";
+            const itemText = item.text[currentLang] || "";
+            const showReadMore = itemText.length > 90;
+
+            return (
+              <div
+                key={item._id}
+                className={`news-card ${visible ? "active" : "inactive"}`}
+              >
+                <img
+                  src={item.image || "/img/news/default.jpg"}
+                  alt={itemTitle}
+                  className="news-image"
+                />
+                <div className="news-content">
+                  <h3 className="news-title">{itemTitle}</h3>
+                  <p className="news-date">
+                    {new Date(item.date).toLocaleDateString("ka-GE")}
+                  </p>
+                  <p className="news-text">
+                    {showReadMore ? itemText.slice(0, 90) + "..." : itemText}
+                  </p>
+                  {showReadMore && (
+                    <button
+                      onClick={() => handleReadMore(item._id)}
+                      className="read-more-btn"
+                    >
+                      {t("readMore")}
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-      )}
+
+        {news.length > cardsToShow && (
+          <div className="carousel-arrows">
+            <button className="carousel-btn prev" onClick={prevSlide}>
+              &#10094;
+            </button>
+            <button className="carousel-btn next" onClick={nextSlide}>
+              &#10095;
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

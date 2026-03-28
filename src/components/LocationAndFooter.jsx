@@ -1,16 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const LocationAndFooter = () => {
+  const { t, i18n } = useTranslation("common");
+  const [loaded, setLoaded] = useState(false);
   const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    setLoaded(true); // Client-side only
+  }, []);
+
+  if (!loaded) return null;
 
   return (
     <section className="location-section" id="clinic-location">
-      <h2>ჩვენი ადგილმდებარეობა</h2>
-      <p className="location-description">
-        მოგვწვდით მარტივად — ჩვენი მისამართია ქუთაისი, ფოთის ქუჩა 40.
-      </p>
+      <h2>{t("locationTitle")}</h2>
+      <p className="location-description">{t("locationDescription")}</p>
 
       <div className="map-container">
         <iframe
@@ -28,12 +35,12 @@ const LocationAndFooter = () => {
         rel="noopener noreferrer"
         className="map-button"
       >
-        გახსენით რუკა Google Maps-ზე
+        {t("mapButton")}
       </a>
 
       <footer className="site-footer">
         <p>
-          &copy; {currentYear} ყველა უფლება დაცულია. დამზადებულია Zaza Jurkhadze-ის მიერ.
+          &copy; {currentYear} {t("footerText")}
         </p>
       </footer>
     </section>

@@ -1,25 +1,31 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { NextResponse } from "next/server";
+import cloudinary from "@/lib/cloudinary";
 
 export const POST = async (req) => {
   try {
     const data = await req.formData();
-    const file = data.get('image');
+    const file = data.get("image");
 
     if (!file) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
+    // გადაყვანა ArrayBuffer → Base64
     const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = `${Date.now()}-${file.name}`;
-    const uploadPath = path.join(process.cwd(), 'public', 'img', 'news', fileName);
+    const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
 
-    fs.writeFileSync(uploadPath, buffer);
+    // ატვირთვა Cloudinary-ში
+    const uploadResponse = await cloudinary.uploader.upload(base64, {
+      folder: "news",
+    });
 
-    return NextResponse.json({ url: `/img/news/${fileName}` });
+    // ვიბრუნებთ secure_url-ს და public_id-ს
+    return NextResponse.json({
+      url: uploadResponse.secure_url,
+      public_id: uploadResponse.public_id,
+    });
   } catch (err) {
-    console.error('Upload error:', err);
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+    console.error("Upload error:", err);
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 };

@@ -1,13 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ChatbotWidget() {
+  const { t, i18n } = useTranslation("common");
+
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([
-    { role: "system", content: "გამარჯობა! რით შემიძლია დაგეხმაროთ?" },
+  const [messages, setMessages] = useState(() => [
+    { role: "system", content: t("systemGreeting") }
   ]);
   const [loading, setLoading] = useState(false);
+
+  // Language change: reset system message without infinite loop
+  useEffect(() => {
+    setMessages([{ role: "system", content: t("systemGreeting") }]);
+  }, [i18n.language]);
 
   async function sendMessage() {
     if (!input.trim()) return;
@@ -35,13 +43,13 @@ export default function ChatbotWidget() {
       } else {
         setMessages((prev) => [
           ...prev,
-          { role: "system", content: "შეცდომა მოხდა." },
+          { role: "system", content: t("errorDefault") },
         ]);
       }
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { role: "system", content: "სერვერის შეცდომა." },
+        { role: "system", content: t("errorServer") },
       ]);
     } finally {
       setLoading(false);
@@ -53,16 +61,17 @@ export default function ChatbotWidget() {
     <div>
       {!open && (
         <button className="chatbot-toggle" onClick={() => setOpen(true)}>
-          💬
+          {t("chatbotToggle")}
         </button>
       )}
 
       {open && (
         <div className="chatbot-widget">
           <div className="chatbot-header">
-            <span>მედ-ასისტენტი</span>
-            <button onClick={() => setOpen(false)}>✖</button>
+            <span>{t("chatbotHeader")}</span>
+            <button onClick={() => setOpen(false)}>{t("closeButton")}</button>
           </div>
+
           <div className="messages">
             {messages.map((msg, i) => (
               <div key={i} className={`message ${msg.role}`}>
@@ -70,17 +79,18 @@ export default function ChatbotWidget() {
               </div>
             ))}
           </div>
+
           <div className="input-area">
             <input
               type="text"
-              placeholder="დაწერე..."
+              placeholder={t("chatbotPlaceholder")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               disabled={loading}
             />
             <button onClick={sendMessage} disabled={loading}>
-              ▶
+              {t("sendButton")}
             </button>
           </div>
         </div>

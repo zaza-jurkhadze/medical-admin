@@ -1,0 +1,286 @@
+{
+  "brandText": "Modern Medical Technologies\nWestern Regional Center",
+  "home": "Home",
+  "about_us": "About Us",
+  "services": "Services",
+  "doctors": "Doctors",
+  "news": "News",
+  "contact": "Contact",
+  "faq": "FAQ",
+  "address": "Kutaisi, 40 Fotis Street",
+  "phone": "0 431 23 78 78",
+  "email": "info@wrcclinic.ge",
+
+  "servicesDescription": "Here you get high-quality medical services from professionals in a comfortable environment.",
+  "searchPlaceholder": "Find a service...",
+  "allServices": "All Services",
+  "failedFetchServices": "Failed to fetch services",
+  "noResults": "Services Not Found",
+
+  "diagnosticDepartmentTitle": "Diagnostic Department",
+  "diagnosticDepartmentDescription": "High-tech diagnostics with guaranteed accuracy and reliability...",
+  "laboratoryTitle": "Laboratory",
+  "laboratoryDescription": "Fast and accurate analyses you can trust...",
+
+  "doctorsSectionTitle": "Doctors",
+  "searchByName": "Search doctor by name...",
+  "searchBySpecialty": "Search doctor by specialty...",
+  "seeAllDoctors": "See all doctors",
+
+  "allDoctorsTitle": "All Doctors",
+
+  "doctorBio": "Biography",
+  "doctorEducation": "Education",
+  "doctorExperience": "Experience",
+  "infoComingSoon": "Information will be added soon.",
+
+  "patientSectionTitle": "Grateful Patients",
+  "testimonial1": "Amazing professionals and a warm environment. Every visit gave me a sense of safety and trust...",
+  "testimonialName1": "Alexander Dvarakovsky",
+  "testimonial2": "The doctors’ care and attention are unforgettable. Accurate diagnosis and quick response...",
+  "testimonialName2": "Nino Kakhidze",
+  "testimonial3": "I had seen many doctors before, but only in your clinic did I feel real trust and peace...",
+  "testimonialName3": "Mikheil Kavtaradze",
+
+  "loading": "Loading...",
+  "failedFetchNews": "Failed to fetch news",
+  "readMore": "Read more",
+
+  "faq1_question": "What are the clinic's working hours?",
+  "faq1_answer": "The clinic operates daily except Saturday and Sunday from 09:30 to 17:30.",
+  
+  "faq2_question": "Where is the clinic located?",
+  "faq2_answer": "The clinic is located at 40, Foti Street, Kutaisi.",
+  
+  "faq3_question": "Is it possible to receive test results by email?",
+  "faq3_answer": "Yes, it is possible. You can leave your email when submitting tests.",
+  
+  "faq4_question": "Are you participating in the universal health insurance program?",
+  "faq4_answer": "At the clinic, patients can undergo scheduled procedures and receive medical services covered by the state universal health insurance program.",
+  
+  "faq5_question": "How can I make an appointment with a doctor?",
+  "faq5_answer": "You can make an appointment via the clinic's hotline - 0431 23 78 78.",
+  
+  "faq6_question": "How can I make an MRI appointment?",
+  "faq6_answer": "Pre-booking is available at the following number - xxxxxxxxx.",
+
+  "title": "Contact Us",
+  "contactPhone": "Phone",
+  "contactPhoneNumber": "+995599123456",
+  "contactPhoneNumberDisplay": "0431 23 78 78",
+  "contactEmail": "Email",
+  "contactEmailAddress": "info@wrcclinic.ge",
+  "workingHours": "Working Hours",
+  "weekdays": "Mon - Fri: 09:30 – 17:30",
+  "weekend": "Saturday-Sunday: Closed",
+  "socialMedia": "FOLLOW US",
+  "facebookLink": "https://www.facebook.com/WRCommt",
+  "instagramLink": "https://www.instagram.com/modern_medical_tecnologies",
+  "youtubeLink": "https://youtube.com/yourchannel",
+  "linkedinLink": "https://linkedin.com/in/wrc-clinic",
+  "tiktokLink": "https://www.tiktok.com/@wrc-clinic",
+
+  "locationTitle": "Our Location",
+  "locationDescription": "Easily reachable — our address is 40 Poti St, Kutaisi.",
+  "mapButton": "Open in Google Maps",
+  "footerText": "WRCCLINIC",
+
+  "chatbotToggle": "💬",
+  "chatbotHeader": "Med-Assistant",
+  "chatbotPlaceholder": "Type here...",
+  "systemGreeting": "Hello! How can I help you?",
+  "sendButton": "▶",
+  "closeButton": "✖",
+  "errorServer": "Server error.",
+  "errorDefault": "An error occurred.",
+
+
+  
+  "aboutClinic": {
+    "heroAlt": "Clinic main photo",
+    "title": "About Us",
+    "paragraph1": "\"Western Regional Center for Modern Medical Technologies\" is a multidisciplinary medical institution founded with the idea of creating a new standard, high-tech clinic in Western Georgia, where the patient is at the center of all decisions.",
+    "visionTitle": "Our vision:",
+    "visionText": "To be a leading provider of medical services in the region, based on innovation, continuous improvement, and human values.",
+    "missionTitle": "Our mission:",
+    "missionText": "To provide high-quality, safe, and accessible medical services to all patients through modern technologies and a professional team.",
+    "paragraph2": "We believe that every individual should have the opportunity to receive an accurate diagnosis, timely treatment, and empathetic care — this idea guides our team’s daily work.",
+    "valuesTitle": "Core values:",
+    "values": {
+      "patient": "Patient-oriented – all our processes are built around the patient’s needs. We listen, care, and create an environment where the patient feels their health is our priority.",
+      "professionalism": "Professionalism – our doctors and medical staff continuously attend international and local trainings, congresses, and workshops, ensuring the highest service quality.",
+      "technology": "Modern technologies – the clinic is equipped with the latest medical equipment: digital radiology, laboratory diagnostics, ultrasound, and CT scanning.",
+      "ethics": "Ethics and respect – we respect the patient’s dignity, confidentiality, and freedom of choice.",
+      "safety": "Safety and quality – internal control mechanisms, standardized procedures, and continuous monitoring systems are implemented."
+    },
+    "whyTitle": "Why choose our clinic?",
+    "why": {
+      "innovation": "✅ Innovative treatment approaches – we implement new therapeutic and surgical methods.",
+      "integration": "✅ Integrated services in one place – consultations, diagnostics, laboratory, inpatient care, and rehabilitation all in one place.",
+      "multidisciplinary": "✅ Multidisciplinary staff – a team of professional doctors ensures correct analysis of complex cases.",
+      "comfort": "✅ Comfortable environment – modern interior, secure infrastructure, and psychologically comfortable surroundings."
+    },
+    "qualityPolicyTitle": "Quality Policy",
+    "qualityPolicyText": "For us, quality is not only about results — it starts with each employee’s responsibility and is completed with patient satisfaction.",
+    "quality": {
+      "hygiene": "✅ Strict hygiene and infection control measures",
+      "protocols": "✅ Standardized treatment protocols",
+      "risks": "✅ Risk minimization and safety improvement",
+      "feedback": "✅ Continuous evaluation of patient feedback"
+    },
+    "socialResponsibilityTitle": "Social Responsibility",
+    "socialResponsibilityText": "We believe that the clinic is not only a service provider but also part of the community. Therefore, we conduct preventive screenings, raise awareness, and cooperate with local and international organizations.",
+    "goalTitle": "Our goal is simple:",
+    "goalText": "Healthy people – a strong region!",
+    "finalParagraph": "\"Western Regional Center for Modern Medical Technologies\" is committed to providing the best care for patients of all ages and conditions.",
+    "galleryButton": "Photo Gallery",
+    "foundersTitle": "Clinic Founders",
+    "founder1": "Gia Grcilidze – General Director",
+    "founder2": "Badri Chakvetadze – Clinic Founder",
+    "founder3": "Koba Abutidze – Clinic Founder",
+    "founder4": "Kakha Qavalashvili – Clinic Founder",
+    "directorTitle": "Medical Director",
+    "directorName": "Levan Tkebuchava – Medical Director",
+    "adminTitle": "Administration",
+    "adminManager": "Temur Kardava Administration Manager",
+    "adminFull": "Full"
+  },
+
+
+  "serviceNotFound": "Service not found",
+    "doctorsNotFound": "Doctors not found",
+    "showDoctors": "Doctors",
+    "hideDoctors": "Hide doctors",
+    "noDoctorsFound": "No doctors found for this service",
+    "viewFull": "View full",
+
+    "en": {
+    "allServices": "All Services",
+    "searchPlaceholder": "Search services...",
+    "fetchError": "Failed to fetch services"
+  },
+
+  "fetchNewsError": "Failed to fetch news",
+  "newsNotFound": "News not found",
+  
+  "administrationTitle": "Administration",
+  "administrationSections": [
+    {
+      "title": "Administrative Management",
+      "items": [
+        "General management of the medical facility",
+        "Staff coordination",
+        "Consultation support",
+        "Documentation administration"
+      ],
+      "image": "/img/administration/administrator.jpg"
+    },
+    {
+      "title": "Human Resources (HR)",
+      "items": [
+        "Recruitment and hiring",
+        "Employment contracts",
+        "Trainings and professional development",
+        "Labor discipline and ethics"
+      ],
+      "image": "/img/administration/hr.jpg"
+    },
+    {
+      "title": "Finance Department",
+      "items": [
+        "Accounting",
+        "Budgeting and financial planning",
+        "Payroll management",
+        "Financial reporting and auditing"
+      ],
+      "image": "/img/administration/financial.jpg"
+    },
+    {
+      "title": "Patient Registration and Reception",
+      "items": [
+        "Patient registration",
+        "Insurance information processing",
+        "Directing patient to the appropriate service"
+      ],
+      "image": "/img/administration/registration.jpg"
+    },
+    {
+      "title": "Procurement and Inventory",
+      "items": [
+        "Procurement of medical and administrative supplies",
+        "Inventory management",
+        "Communication with suppliers"
+      ],
+      "image": "/img/administration/Purchasing.jpg"
+    },
+    {
+      "title": "Communications and Marketing",
+      "items": [
+        "Clinic branding and advertising",
+        "Social media management",
+        "Public relations",
+        "Information dissemination"
+      ],
+      "image": "/img/administration/pr.jpg"
+    },
+    {
+      "title": "Information Technology (IT)",
+      "items": [
+        "Support for hospital information systems",
+        "Network infrastructure",
+        "Technical assistance for staff",
+        "Data security"
+      ],
+      "image": "/img/administration/it.jpg"
+    },
+    {
+      "title": "Legal Department",
+      "items": [
+        "Preparation and analysis of contracts",
+        "Regulation compliance",
+        "Review of claims and legal support"
+      ],
+      "image": "/img/administration/legal.jpg"
+    },
+    {
+      "title": "Document Management and Archives",
+      "items": [
+        "Official document management",
+        "Archiving and access provision"
+      ],
+      "image": "/img/administration/archives.jpg"
+    },
+    {
+      "title": "Safety and Internal Regulations",
+      "items": [
+        "Physical security",
+        "Fire safety and other compliance",
+        "Monitoring staff movements"
+      ],
+      "image": "/img/administration/security.jpg"
+    },
+    {
+      "title": "Patient Personal Services",
+      "items": [
+        "Individual reception of patients and providing information about services",
+        "Assisting in booking, visit planning, and patient movement",
+        "Organizing interpreters, transport, or additional services if needed",
+        "Coordination with other departments during patient service (doctors, reception, finance, etc.)"
+      ],
+      "image": "/img/administration/patient-private.jpg"
+    },
+    {
+      "title": "Pharmacy Department",
+      "items": [
+        "Inventory control and monitoring of medications",
+        "Safe management of strictly controlled drugs according to regulations",
+        "Ensuring compliance with licensing and pharmaceutical requirements"
+      ],
+      "image": "/img/administration/pharmacy.jpg"
+    }
+  ]
+
+
+
+
+}

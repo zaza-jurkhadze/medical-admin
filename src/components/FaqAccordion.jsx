@@ -1,45 +1,38 @@
 "use client";
-import React, { useState } from 'react';
 
-const questions = [
-  {
-    question: 'კლინიკის სამუშაო საათები?',
-    answer: 'კლინიკის სამუშაო საათებია ყოველდღე შაბათ - კვირის გარდა 09:30 -17:30-მდე.',
-  },
-  {
-    question: 'სად მდებარეობს კლინიკა?',
-    answer: 'კლინიკის მისამართია ქუთაისი ფოთის ქუჩა 40',
-  },
-  {
-    question: 'შესაძლებელია თუ არა ანალიზების პასუხების მიღება ელ.ფოსტით?',
-    answer: 'დიახ, შესაძლებელია. ანალიზების ჩაბარების დროს შეგიძლიათ დატოვოთ თქვენი ელექტრონული ფოსტის მისამართი.',
-  },
-  {
-    question: 'ხართ თუ არა ჩართული საყოველთაო დაზღვევის პროგრამაში?',
-    answer: 'კლინიკაში, პაციენტებს აქვთ შესაძლებლობა ჯანდაცვის სახელმწიფო პროგრამის ფარგლებში ჩაიტარონ გეგმიური ოპერაციები და მიიღონ სამედიცინო მომსახურებები, რომლებიც იფარება საყოველთაო ჯანმრთელობის დაცვის სახელმწიფო პროგრამით.',
-  },
-  {
-    question: 'როგორ ხდება ექიმთან ჩაწერა?',
-    answer: 'ექიმთან ჩაწერა შესაძლებელია კლინიკის ცხელი ხაზის მეშვეობით - 0431 23 78 78',
-  },
-  {
-    question: 'როგორ ხდება მაგნიტურ - რეზონანსულ ტომოგრაფიაზე ჩაწერა?',
-    answer: 'წინასწარი ჩაწერა შესაძლებელია აღნიშნულ ნომერზე - xxxxxxxxx',
-  },
-];
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function FaqAccordion() {
+  const { t, i18n } = useTranslation("common");
+  const [faqs, setFaqs] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [loaded, setLoaded] = useState(false); 
+
+  useEffect(() => {
+    setLoaded(true);
+    const faqArray = [
+      { question: t("faq1_question"), answer: t("faq1_answer") },
+      { question: t("faq2_question"), answer: t("faq2_answer") },
+      { question: t("faq3_question"), answer: t("faq3_answer") },
+      { question: t("faq4_question"), answer: t("faq4_answer") },
+      { question: t("faq5_question"), answer: t("faq5_answer") },
+      { question: t("faq6_question"), answer: t("faq6_answer") },
+    ];
+    setFaqs(faqArray);
+  }, [i18n.language, t]);
+
+  if (!loaded) return null; 
 
   const toggleAccordion = (index) => {
-    setActiveIndex(prev => (prev === index ? null : index));
+    setActiveIndex((prev) => (prev === index ? null : index));
   };
 
   return (
     <section className="faq-section" id="faq">
-      <h2 className="faq-title">ხშირად დასმული კითხვები</h2>
+      <h2 className="faq-title">{t("faq")}</h2>
       <div className="accordion-wrapper">
-        {questions.map((item, index) => (
+        {faqs.map((item, index) => (
           <div key={index} className="accordion-item">
             <button
               className="accordion-toggle"

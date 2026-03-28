@@ -1,15 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import MainHeader from "@/components/MainHeader";
 import TopHeader from "@/components/TopHeader";
-import LocationAndFooter from "@/components/LocationAndFooter";;
+import LocationAndFooter from "@/components/LocationAndFooter";
 import ContactInfo from "@/components/ContactInfo";
 import ChatbotWidget from "@/components/Chatbox.jsx";
 import MessengerButton from "@/components/MessengerChat.jsx";
 import styles from "./ServiceDetail.module.css";
 
 export default function ServiceDetail() {
+  const { t, i18n } = useTranslation();
   const { slugId } = useParams();
 
   const [service, setService] = useState(null);
@@ -21,30 +23,29 @@ export default function ServiceDetail() {
   const [showDoctors, setShowDoctors] = useState(false);
   const [errorDoctors, setErrorDoctors] = useState("");
 
-  // service detail
+  // Fetch service detail
   useEffect(() => {
     let cancelled = false;
     setLoadingService(true);
     setErrorService("");
     (async () => {
       try {
-        const res = await fetch(`/api/servicesDetails?slugId=${slugId}`);
-        if (!res.ok) throw new Error("Service not found");
+        const res = await fetch(`/api/servicesDetails?slugId=${slugId}&lang=${i18n.language}`);
+        if (!res.ok) throw new Error(t("serviceNotFound"));
         const data = await res.json();
         if (!cancelled) setService(data);
       } catch (e) {
-        if (!cancelled) setErrorService(e.message || "ვერ მოიძებნა სერვისი");
+        if (!cancelled) setErrorService(e.message || t("serviceNotFound"));
       } finally {
         if (!cancelled) setLoadingService(false);
       }
     })();
     return () => { cancelled = true; };
-  }, [slugId]);
+  }, [slugId, i18n.language, t]);
 
-  // doctors by slugId with toggle
+  // Fetch doctors by slugId
   const fetchDoctors = async () => {
     if (showDoctors) {
-      // მეორე კლიკი აკეცავს
       setShowDoctors(false);
       return;
     }
@@ -52,22 +53,23 @@ export default function ServiceDetail() {
     setLoadingDoctors(true);
     setErrorDoctors("");
     try {
-      const res = await fetch(`/api/doctors?slugId=${slugId}`);
-      if (!res.ok) throw new Error("Doctors not found");
+      const res = await fetch(`/api/doctors?slugId=${slugId}&lang=${i18n.language}`);
+      if (!res.ok) throw new Error(t("doctorsNotFound"));
       const data = await res.json();
       setDoctors(data || []);
       setShowDoctors(true);
     } catch (e) {
-      setErrorDoctors(e.message || "ექიმები ვერ მოიძებნა");
+      setErrorDoctors(e.message || t("doctorsNotFound"));
+      setDoctors([]);
       setShowDoctors(true);
     } finally {
       setLoadingDoctors(false);
     }
   };
 
-  if (loadingService) return <p className={styles.loading}>ერთი წამით...</p>;
+  if (loadingService) return <p className={styles.loading}>{t("loading")}</p>;
   if (errorService || !service)
-    return <p className={styles.notFound}>სერვისი ვერ მოიძებნა</p>;
+    return <p className={styles.notFound}>{t("serviceNotFound")}</p>;
 
   return (
     <>
@@ -75,7 +77,6 @@ export default function ServiceDetail() {
       <MainHeader />
 
       <div className={styles.wrapper}>
-        {/* Banner */}
         <img
           src={service.image}
           alt={service.name}
@@ -83,7 +84,6 @@ export default function ServiceDetail() {
           onError={(e) => { e.currentTarget.src = "/img/placeholder.jpg"; }}
         />
 
-        {/* Content */}
         <div className={styles.content}>
           <h1 className={styles.title}>{service.name}</h1>
 
@@ -105,31 +105,28 @@ export default function ServiceDetail() {
             </section>
           )}
 
-              {/* ექიმების ღილაკი */}
           <div className={styles.ctaRow}>
             <button
               className={styles.button}
-              onClick={() => setShowDoctors((prev) => !prev) || fetchDoctors()}
+              onClick={fetchDoctors}
               disabled={loadingDoctors}
             >
               {loadingDoctors
-                ? "იტვირთება..."
+                ? t("loading")
                 : showDoctors
-                ? "დამალე ექიმები"
-                : "ექიმები"}
+                ? t("hideDoctors")
+                : t("showDoctors")}
             </button>
           </div>
-          {/* ექიმების სია */}
+
           {showDoctors && (
             <section className={styles.section}>
-
-              {errorDoctors && <p className={styles.error}>{errorDoctors}</p>}
-
-              {!errorDoctors && doctors.length === 0 && (
-                <p className={styles.muted}>ამ სერვისზე ექიმები არ მოიძებნა</p>
+              {loadingDoctors && <p>{t("loading")}</p>}
+              {!loadingDoctors && errorDoctors && <p className={styles.error}>{errorDoctors}</p>}
+              {!loadingDoctors && !errorDoctors && doctors.length === 0 && (
+                <p className={styles.muted}>{t("noDoctorsFound")}</p>
               )}
-
-              {!errorDoctors && doctors.length > 0 && (
+              {!loadingDoctors && doctors.length > 0 && (
                 <div className={styles.doctorsList}>
                   {doctors.map((doc) => (
                     <article key={doc._id} className={styles.doctorCard}>
@@ -140,11 +137,9 @@ export default function ServiceDetail() {
                       />
                       <h3>{doc.name}</h3>
                       <p className={styles.role}>{doc.position}</p>
-
-                      {/* პროფილის გვერდზე გადამისამართება */}
                       {doc.doctorSlug && (
                         <a className={styles.link} href={`/doctors/${doc.doctorSlug}`}>
-                          სრულად
+                          {t("viewFull")}
                         </a>
                       )}
                     </article>
@@ -155,10 +150,9 @@ export default function ServiceDetail() {
           )}
         </div>
       </div>
-      
-           
+
       <ContactInfo />
-      <LocationAndFooter/>
+      <LocationAndFooter />
       <MessengerButton />
       <ChatbotWidget />
     </>
